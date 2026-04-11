@@ -1,354 +1,552 @@
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --green: #3B6D11; --green-light: #EAF3DE; --green-mid: #639922;
-  --amber: #BA7517; --amber-light: #FAEEDA;
-  --red: #A32D2D; --red-light: #FCEBEB;
-  --blue: #185FA5; --blue-light: #E6F1FB;
-  --surface: var(--color-background-primary);
-  --surface2: var(--color-background-secondary);
-  --border: var(--color-border-tertiary);
-  --text: var(--color-text-primary);
-  --muted: var(--color-text-secondary);
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --g:#3B6D11;--gl:#EAF3DE;--gm:#639922;
+  --a:#BA7517;--al:#FAEEDA;
+  --r:#A32D2D;--rl:#FCEBEB;
+  --b:#185FA5;--bl:#E6F1FB;
+  --s:var(--color-background-primary);
+  --s2:var(--color-background-secondary);
+  --br:var(--color-border-tertiary);
+  --tx:var(--color-text-primary);
+  --mu:var(--color-text-secondary);
 }
-.app { max-width: 420px; margin: 0 auto; font-family: var(--font-sans); min-height: 600px; display: flex; flex-direction: column; }
-.header { background: linear-gradient(135deg, #2d5a0e 0%, #3B6D11 60%, #4a8a16 100%); color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
-.header-brand { display: flex; align-items: center; gap: 10px; }
-.logo-box { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.25); }
-.logo-text { font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 1px; }
-.brand-name { font-size: 17px; font-weight: 600; letter-spacing: 0.5px; }
-.brand-sub { font-size: 10px; opacity: 0.75; margin-top: 1px; letter-spacing: 0.3px; }
-.avatar-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; border: 1.5px solid rgba(255,255,255,0.4); }
-.summary-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding: 10px 12px; background: var(--surface2); }
-.stat { background: var(--surface); border-radius: var(--border-radius-md); padding: 9px; text-align: center; border: 0.5px solid var(--border); }
-.stat .val { font-size: 15px; font-weight: 500; }
-.stat .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
-.tabs { display: flex; border-bottom: 0.5px solid var(--border); background: var(--surface); }
-.tab { flex: 1; padding: 10px 2px; font-size: 11px; text-align: center; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; }
-.tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 500; }
-.content { flex: 1; padding: 12px; }
-.section { display: none; }
-.section.visible { display: block; }
-.card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--border-radius-lg); padding: 14px; margin-bottom: 10px; }
-.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.card-title { font-size: 14px; font-weight: 500; }
-.badge { font-size: 11px; padding: 3px 8px; border-radius: var(--border-radius-md); }
-.badge-green { background: var(--green-light); color: var(--green); }
-.badge-red { background: var(--red-light); color: var(--red); }
-.badge-amber { background: var(--amber-light); color: var(--amber); }
-.badge-blue { background: var(--blue-light); color: var(--blue); }
-.form-row { margin-bottom: 10px; }
-.form-row label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
-.form-row input, .form-row select { width: 100%; padding: 8px 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--border); font-size: 14px; background: var(--surface); color: var(--text); }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.btn { width: 100%; padding: 10px; border-radius: var(--border-radius-md); border: none; cursor: pointer; font-size: 14px; font-weight: 500; margin-top: 4px; }
-.btn-green { background: var(--green); color: #fff; }
-.btn-outline { background: transparent; border: 0.5px solid var(--border); color: var(--text); }
-.btn-google { background: var(--surface); border: 0.5px solid var(--border); color: var(--text); display: flex; align-items: center; justify-content: center; gap: 10px; padding: 11px; width: 100%; border-radius: var(--border-radius-md); cursor: pointer; font-size: 14px; }
-.ledger-row { display: flex; align-items: flex-start; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
-.ledger-row:last-child { border-bottom: none; }
-.ledger-left .title { font-size: 13px; font-weight: 500; }
-.ledger-left .meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.ledger-right { text-align: right; flex-shrink: 0; margin-left: 8px; }
-.ledger-right .amount { font-size: 13px; font-weight: 500; }
-.empty { text-align: center; padding: 30px; color: var(--muted); font-size: 13px; }
-.toast { display: none; text-align: center; padding: 8px; font-size: 13px; border-radius: var(--border-radius-md); margin-bottom: 10px; }
-.toast.show { display: block; }
-.toast-green { background: var(--green-light); color: var(--green); }
-.toast-red { background: var(--red-light); color: var(--red); }
-.charges-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-.charge-item { background: var(--surface2); border-radius: var(--border-radius-md); padding: 8px; }
-.charge-item .c-label { font-size: 11px; color: var(--muted); }
-.charge-item .c-val { font-size: 14px; font-weight: 500; margin-top: 2px; }
-.net-box { border-radius: var(--border-radius-md); padding: 12px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; }
-.net-profit { background: var(--green-light); }
-.net-profit .nlabel, .net-profit .nval { color: var(--green); }
-.net-loss { background: var(--red-light); }
-.net-loss .nlabel, .net-loss .nval { color: var(--red); }
-.nval { font-size: 20px; font-weight: 500; }
-.nlabel { font-size: 13px; }
-.cloud-row { display: flex; align-items: center; gap: 8px; padding: 10px; background: var(--surface2); border-radius: var(--border-radius-md); margin-bottom: 10px; font-size: 13px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.dot-green { background: var(--green-mid); }
-.dot-amber { background: var(--amber); }
-.login-screen { text-align: center; padding: 24px 20px; }
-.sss-logo { width: 72px; height: 72px; background: var(--green); border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 14px; border: 2px solid var(--green-mid); }
-.sss-logo-text { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: 2px; line-height: 1; }
-.sss-logo-sub { font-size: 7px; color: rgba(255,255,255,0.8); letter-spacing: 1px; margin-top: 3px; }
-.login-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
-.login-brand { font-size: 13px; color: var(--green); font-weight: 500; margin-bottom: 10px; }
-.login-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
-.feature-list { text-align: left; margin-bottom: 20px; }
-.feature-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 13px; border-bottom: 0.5px solid var(--border); }
-.feature-item:last-child { border-bottom: none; }
-.fi-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-mid); flex-shrink: 0; }
-.profile-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
-.profile-row:last-child { border-bottom: none; }
-.profile-row span:first-child { color: var(--muted); }
-.profile-row span:last-child { font-weight: 500; }
-.spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.app{max-width:440px;margin:0 auto;font-family:var(--font-sans);display:flex;flex-direction:column;min-height:700px;}
+.hdr{background:#2d5a0e;color:#fff;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;}
+.hdr-brand{display:flex;align-items:center;gap:9px;}
+.hdr-logo{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.25);}
+.hdr-logo span{font-size:11px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1;}
+.hdr-logo sub{font-size:6px;color:rgba(255,255,255,0.7);letter-spacing:.5px;}
+.hdr-name{font-size:15px;font-weight:600;}
+.hdr-sub{font-size:10px;opacity:.7;margin-top:1px;}
+.avbtn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.35);color:#fff;font-size:12px;font-weight:600;cursor:pointer;}
+.tabs{display:flex;background:var(--s);border-bottom:0.5px solid var(--br);overflow-x:auto;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex-shrink:0;padding:9px 10px;font-size:11px;color:var(--mu);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;}
+.tab.on{color:var(--g);border-bottom-color:var(--g);font-weight:500;}
+.pg{display:none;padding:12px;flex:1;}
+.pg.on{display:block;}
+.card{background:var(--s);border:0.5px solid var(--br);border-radius:var(--border-radius-lg);padding:13px;margin-bottom:10px;}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.ct{font-size:14px;font-weight:500;}
+.bdg{font-size:10px;padding:3px 7px;border-radius:var(--border-radius-md);}
+.bg{background:var(--gl);color:var(--g);}
+.bb{background:var(--bl);color:var(--b);}
+.br2{background:var(--rl);color:var(--r);}
+.ba{background:var(--al);color:var(--a);}
+.fr{margin-bottom:9px;}
+.fr label{font-size:11px;color:var(--mu);display:block;margin-bottom:3px;}
+.fr input,.fr select,.fr textarea{width:100%;padding:7px 9px;border-radius:var(--border-radius-md);border:0.5px solid var(--br);font-size:13px;background:var(--s);color:var(--tx);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.btn{width:100%;padding:9px;border-radius:var(--border-radius-md);border:none;cursor:pointer;font-size:13px;font-weight:500;margin-top:3px;}
+.btn-g{background:var(--g);color:#fff;}
+.btn-o{background:transparent;border:0.5px solid var(--br);color:var(--tx);}
+.btn-r{background:var(--r);color:#fff;}
+.btn-sm{width:auto;padding:5px 10px;font-size:11px;border-radius:var(--border-radius-md);border:0.5px solid var(--br);background:transparent;color:var(--tx);cursor:pointer;margin-left:6px;}
+.toast{display:none;padding:7px 10px;border-radius:var(--border-radius-md);font-size:12px;margin-bottom:8px;text-align:center;}
+.toast.on{display:block;}
+.tg{background:var(--gl);color:var(--g);}
+.tr2{background:var(--rl);color:var(--r);}
+.row{display:flex;align-items:flex-start;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--br);}
+.row:last-child{border-bottom:none;}
+.rl .t{font-size:13px;font-weight:500;}
+.rl .m{font-size:11px;color:var(--mu);margin-top:2px;line-height:1.4;}
+.rr{text-align:right;flex-shrink:0;margin-left:8px;}
+.rr .am{font-size:13px;font-weight:500;}
+.empty{text-align:center;padding:24px;color:var(--mu);font-size:12px;}
+.sbar{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 12px;background:var(--s2);}
+.sc{background:var(--s);border-radius:var(--border-radius-md);padding:8px;text-align:center;border:0.5px solid var(--br);}
+.sc .v{font-size:14px;font-weight:500;}
+.sc .l{font-size:10px;color:var(--mu);margin-top:1px;}
+.sec-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.stab{padding:5px 10px;border-radius:var(--border-radius-md);font-size:12px;border:0.5px solid var(--br);cursor:pointer;background:var(--s2);color:var(--mu);}
+.stab.on{background:var(--gl);color:var(--g);border-color:var(--gm);font-weight:500;}
+.itm-row{display:flex;align-items:center;gap:8px;padding:8px;background:var(--s2);border-radius:var(--border-radius-md);margin-bottom:6px;}
+.itm-del{background:var(--rl);color:var(--r);border:none;border-radius:var(--border-radius-md);padding:4px 8px;font-size:11px;cursor:pointer;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.stat-c{background:var(--s2);border-radius:var(--border-radius-md);padding:10px;}
+.stat-c .sv{font-size:16px;font-weight:500;}
+.stat-c .sl{font-size:11px;color:var(--mu);margin-top:2px;}
+.rpt-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--br);font-size:13px;}
+.rpt-row:last-child{border-bottom:none;}
+.rpt-row span:first-child{color:var(--mu);}
+.rpt-row span:last-child{font-weight:500;}
+.net-b{border-radius:var(--border-radius-md);padding:12px;display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.nbg{background:var(--gl);}
+.nbg .nl,.nbg .nv{color:var(--g);}
+.nbr{background:var(--rl);}
+.nbr .nl,.nbr .nv{color:var(--r);}
+.nl{font-size:13px;}
+.nv{font-size:18px;font-weight:500;}
+.adj-row{display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:0.5px solid var(--br);}
+.adj-row:last-child{border-bottom:none;}
+.adj-row input{width:70px;padding:5px 7px;border-radius:var(--border-radius-md);border:0.5px solid var(--br);font-size:12px;background:var(--s);color:var(--tx);}
+.adj-label{flex:1;font-size:12px;}
+.adj-meta{font-size:11px;color:var(--mu);}
 </style>
 
 <div class="app">
-  <div class="header">
-    <div class="header-brand">
-      <div class="logo-box">
-        <div>
-          <div class="logo-text">SSS</div>
-        </div>
-      </div>
-      <div>
-        <div class="brand-name">SSS Vegetables</div>
-        <div class="brand-sub">காய்கறி வியாபாரி · Vendor Ledger</div>
-      </div>
-    </div>
-    <button class="avatar-btn" id="avatar-btn" onclick="switchTab('profile')">?</button>
+<div class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-logo"><span>SSS</span><sub>VEG</sub></div>
+    <div><div class="hdr-name">SSS Vegetables</div><div class="hdr-sub">Business Ledger</div></div>
   </div>
+  <button class="avbtn" id="avbtn" onclick="goTab('report')">SS</button>
+</div>
 
-  <div id="login-view">
-    <div class="login-screen">
-      <div class="sss-logo">
-        <div class="sss-logo-text">SSS</div>
-        <div class="sss-logo-sub">VEGETABLES</div>
-      </div>
-      <div class="login-title">SSS Vegetables</div>
-      <div class="login-brand">காய்கறி வியாபாரி Ledger App</div>
-      <div class="login-sub">உங்கள் business-ஐ smart-ஆ manage பண்ண<br>Google account-ல் login பண்ணுங்க — Free!</div>
-      <div class="feature-list">
-        <div class="feature-item"><div class="fi-dot"></div>Multiple market purchases track பண்ணலாம்</div>
-        <div class="feature-item"><div class="fi-dot"></div>Wholesale sales record & transport/labor</div>
-        <div class="feature-item"><div class="fi-dot"></div>Profit/Loss automatic calculation</div>
-        <div class="feature-item"><div class="fi-dot"></div>Android · iPhone · Web — எங்கும் data sync</div>
-        <div class="feature-item"><div class="fi-dot"></div>Cloud storage — 100% free</div>
-      </div>
-      <div id="login-toast" class="toast toast-red"></div>
-      <button class="btn-google" onclick="doGoogleLogin()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Google-ல் Login பண்ணுங்க
-      </button>
-      <div style="font-size:11px;color:var(--muted);margin-top:10px;">SSS Vegetables — உங்கள் data பாதுகாப்பாக இருக்கும்</div>
+<div class="sbar">
+  <div class="sc"><div class="v" id="sb-buy" style="color:var(--b)">₹0</div><div class="l">Purchased</div></div>
+  <div class="sc"><div class="v" id="sb-sell" style="color:var(--g)">₹0</div><div class="l">Sold</div></div>
+  <div class="sc"><div class="v" id="sb-net" style="color:var(--g)">₹0</div><div class="l">Net P/L</div></div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="goTab('purchase')">Purchase</div>
+  <div class="tab" onclick="goTab('labor')">Labor</div>
+  <div class="tab" onclick="goTab('transport')">Transport</div>
+  <div class="tab" onclick="goTab('sale')">Sale</div>
+  <div class="tab" onclick="goTab('adjust')">Adjust</div>
+  <div class="tab" onclick="goTab('report')">Report</div>
+</div>
+
+<div class="pg on" id="pg-purchase">
+  <div class="card">
+    <div class="ch"><div class="ct">Market Purchase</div><span class="bdg bb">Buy</span></div>
+    <div class="fr"><label>Date</label><input type="date" id="b-date" /></div>
+    <div class="fr"><label>Market / Shop name</label><input type="text" id="b-shop" placeholder="e.g. Koyambedu Market A" /></div>
+    <div class="fr"><label>Vegetable</label><input type="text" id="b-veg" placeholder="e.g. Tomato" /></div>
+    <div class="g2">
+      <div class="fr"><label>Qty (kg)</label><input type="number" id="b-qty" placeholder="100" /></div>
+      <div class="fr"><label>Price/kg (₹)</label><input type="number" id="b-price" placeholder="20" /></div>
     </div>
+    <div id="b-items" style="margin-bottom:8px;"></div>
+    <button class="btn btn-o" onclick="addBuyItem()" style="margin-bottom:8px;">+ Add another item to this shop</button>
+    <div id="b-toast" class="toast tg"></div>
+    <button class="btn btn-g" onclick="savePurchase()">Save Purchase</button>
   </div>
-
-  <div id="main-view" style="display:none;flex-direction:column;flex:1;">
-    <div class="summary-bar">
-      <div class="stat"><div class="val" id="totalBuy" style="color:var(--blue)">₹0</div><div class="lbl">Purchased</div></div>
-      <div class="stat"><div class="val" id="totalSell" style="color:var(--green)">₹0</div><div class="lbl">Sold</div></div>
-      <div class="stat"><div class="val" id="totalNet" style="color:var(--green)">₹0</div><div class="lbl">Net P/L</div></div>
-    </div>
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('buy')">Purchase</div>
-      <div class="tab" onclick="switchTab('sell')">Sale</div>
-      <div class="tab" onclick="switchTab('ledger')">Ledger</div>
-      <div class="tab" onclick="switchTab('profile')">Profile</div>
-    </div>
-    <div class="content">
-      <div class="section visible" id="sec-buy">
-        <div class="cloud-row"><div class="dot dot-green" id="sync-dot"></div><span id="sync-text" style="color:var(--muted)">Cloud synced — SSS Vegetables</span></div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Market Purchase</div><span class="badge badge-blue">Buy</span></div>
-          <div class="form-row"><label>Vegetable name</label><input type="text" id="buy-veg" placeholder="e.g. Tomato, Onion..." /></div>
-          <div class="form-grid">
-            <div class="form-row"><label>Quantity (kg)</label><input type="number" id="buy-qty" placeholder="50" /></div>
-            <div class="form-row"><label>Price / kg (₹)</label><input type="number" id="buy-price" placeholder="20" /></div>
-          </div>
-          <div class="form-row"><label>Market / Shop</label><input type="text" id="buy-market" placeholder="e.g. Koyambedu Market" /></div>
-          <div class="form-grid">
-            <div class="form-row"><label>Transport (₹)</label><input type="number" id="buy-transport" placeholder="0" /></div>
-            <div class="form-row"><label>Labor (₹)</label><input type="number" id="buy-labor" placeholder="0" /></div>
-          </div>
-          <div id="buy-toast" class="toast toast-green"></div>
-          <button class="btn btn-green" onclick="savePurchase()">Save & Sync</button>
-        </div>
-      </div>
-
-      <div class="section" id="sec-sell">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Wholesale Sale</div><span class="badge badge-green">Sale</span></div>
-          <div class="form-row"><label>Vegetable name</label><input type="text" id="sell-veg" placeholder="e.g. Tomato..." /></div>
-          <div class="form-grid">
-            <div class="form-row"><label>Quantity (kg)</label><input type="number" id="sell-qty" placeholder="50" /></div>
-            <div class="form-row"><label>Sale price / kg (₹)</label><input type="number" id="sell-price" placeholder="25" /></div>
-          </div>
-          <div class="form-row"><label>Buyer / Shop name</label><input type="text" id="sell-buyer" placeholder="e.g. Murugan Wholesale" /></div>
-          <div class="form-grid">
-            <div class="form-row"><label>Transport (₹)</label><input type="number" id="sell-transport" placeholder="0" /></div>
-            <div class="form-row"><label>Labor (₹)</label><input type="number" id="sell-labor" placeholder="0" /></div>
-          </div>
-          <div id="sell-toast" class="toast toast-green"></div>
-          <button class="btn btn-green" onclick="saveSale()">Save & Sync</button>
-        </div>
-      </div>
-
-      <div class="section" id="sec-ledger">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Profit / Loss</div><span class="badge badge-amber" id="ledger-date">Today</span></div>
-          <div class="charges-summary">
-            <div class="charge-item"><div class="c-label">Total Purchase</div><div class="c-val" id="sum-buy">₹0</div></div>
-            <div class="charge-item"><div class="c-label">Total Sale</div><div class="c-val" id="sum-sell">₹0</div></div>
-            <div class="charge-item"><div class="c-label">Transport</div><div class="c-val" id="sum-transport">₹0</div></div>
-            <div class="charge-item"><div class="c-label">Labor</div><div class="c-val" id="sum-labor">₹0</div></div>
-          </div>
-          <div id="net-box" class="net-box net-profit"><span class="nlabel">Net Profit</span><span class="nval" id="net-val">₹0</span></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Transactions</div></div>
-          <div id="ledger-list"><div class="empty">No transactions yet.</div></div>
-        </div>
-      </div>
-
-      <div class="section" id="sec-profile">
-        <div class="card" style="text-align:center;padding:20px;">
-          <div class="sss-logo" style="margin:0 auto 12px;width:56px;height:56px;border-radius:14px;">
-            <div class="sss-logo-text" style="font-size:16px;">SSS</div>
-            <div class="sss-logo-sub">VEGETABLES</div>
-          </div>
-          <div style="font-size:16px;font-weight:600;" id="profile-name">—</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:3px;" id="profile-email">—</div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Cloud Sync Status</div><span class="badge badge-green">FREE</span></div>
-          <div class="profile-row"><span>Records</span><span id="rec-count">0</span></div>
-          <div class="profile-row"><span>Last sync</span><span id="sync-time">—</span></div>
-          <div class="profile-row"><span>Storage</span><span>Free Cloud</span></div>
-          <div class="profile-row"><span>Devices</span><span>Android · iPhone · Web</span></div>
-        </div>
-        <div class="card">
-          <button class="btn btn-outline" onclick="exportCSV()" style="margin-bottom:8px;">Export as CSV</button>
-          <button class="btn btn-outline" style="color:var(--red);border-color:var(--red);" onclick="doLogout()">Logout</button>
-        </div>
-      </div>
-    </div>
+  <div class="card">
+    <div class="ch"><div class="ct">Recent purchases</div></div>
+    <div id="b-list"><div class="empty">No purchases yet</div></div>
   </div>
 </div>
 
+<div class="pg" id="pg-labor">
+  <div class="card">
+    <div class="ch"><div class="ct">Labor Charges</div><span class="bdg ba">Expense</span></div>
+    <div class="fr"><label>Date</label><input type="date" id="l-date" /></div>
+    <div class="g2">
+      <div class="fr"><label>Worker name</label><input type="text" id="l-name" placeholder="Murugan" /></div>
+      <div class="fr"><label>Amount (₹)</label><input type="number" id="l-amt" placeholder="500" /></div>
+    </div>
+    <div class="fr"><label>Work type</label><input type="text" id="l-type" placeholder="Loading / Unloading / Sorting..." /></div>
+    <div id="l-items" style="margin-bottom:8px;"></div>
+    <button class="btn btn-o" onclick="addLaborItem()" style="margin-bottom:8px;">+ Add another worker</button>
+    <div id="l-toast" class="toast tg"></div>
+    <button class="btn btn-g" onclick="saveLabor()">Save Labor Charges</button>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ct">Recent labor entries</div></div>
+    <div id="l-list"><div class="empty">No labor entries yet</div></div>
+  </div>
+</div>
+
+<div class="pg" id="pg-transport">
+  <div class="card">
+    <div class="ch"><div class="ct">Transport Charges</div><span class="bdg ba">Expense</span></div>
+    <div class="fr"><label>Date</label><input type="date" id="t-date" /></div>
+    <div class="g2">
+      <div class="fr"><label>Driver name</label><input type="text" id="t-driver" placeholder="Ravi" /></div>
+      <div class="fr"><label>Vehicle / Route</label><input type="text" id="t-route" placeholder="Lorry / Market to Godown" /></div>
+    </div>
+    <div class="g2">
+      <div class="fr"><label>Transport amount (₹)</label><input type="number" id="t-amt" placeholder="1200" /></div>
+      <div class="fr"><label>Cleaner name (optional)</label><input type="text" id="t-cleaner" placeholder="Selvam" /></div>
+    </div>
+    <div class="fr"><label>Cleaner wage (₹)</label><input type="number" id="t-cleaner-amt" placeholder="300" /></div>
+    <div id="t-toast" class="toast tg"></div>
+    <button class="btn btn-g" onclick="saveTransport()">Save Transport</button>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ct">Recent transport</div></div>
+    <div id="t-list"><div class="empty">No transport entries yet</div></div>
+  </div>
+</div>
+
+<div class="pg" id="pg-sale">
+  <div class="card">
+    <div class="ch"><div class="ct">Wholesale Sale</div><span class="bdg bg">Sale</span></div>
+    <div class="fr"><label>Date</label><input type="date" id="s-date" /></div>
+    <div class="fr"><label>Buyer / Wholesale shop</label><input type="text" id="s-buyer" placeholder="e.g. Annamalai Wholesale" /></div>
+    <div class="fr"><label>Vegetable</label><input type="text" id="s-veg" placeholder="e.g. Tomato" /></div>
+    <div class="g2">
+      <div class="fr"><label>Qty (kg)</label><input type="number" id="s-qty" placeholder="80" /></div>
+      <div class="fr"><label>Price/kg (₹)</label><input type="number" id="s-price" placeholder="25" /></div>
+    </div>
+    <div id="s-items" style="margin-bottom:8px;"></div>
+    <button class="btn btn-o" onclick="addSaleItem()" style="margin-bottom:8px;">+ Add another item / buyer</button>
+    <div id="s-toast" class="toast tg"></div>
+    <button class="btn btn-g" onclick="saveSale()">Save Sale</button>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ct">Recent sales</div></div>
+    <div id="s-list"><div class="empty">No sales yet</div></div>
+  </div>
+</div>
+
+<div class="pg" id="pg-adjust">
+  <div class="card">
+    <div class="ch"><div class="ct">Price / Weight Adjustment</div><span class="bdg ba">Adjust</span></div>
+    <div class="fr"><label>Select sale to adjust</label><select id="adj-sel"><option value="">-- Select a sale --</option></select></div>
+    <div id="adj-detail" style="display:none;">
+      <div class="g2" style="margin-top:8px;">
+        <div class="fr"><label>Adjusted qty (kg)</label><input type="number" id="adj-qty" /></div>
+        <div class="fr"><label>Adjusted price/kg (₹)</label><input type="number" id="adj-price" /></div>
+      </div>
+      <div class="fr"><label>Reason</label><input type="text" id="adj-reason" placeholder="Weight loss / Price negotiation..." /></div>
+      <div id="adj-diff" style="padding:8px;background:var(--s2);border-radius:var(--border-radius-md);font-size:12px;color:var(--mu);margin-bottom:8px;"></div>
+    </div>
+    <div id="adj-toast" class="toast tg"></div>
+    <button class="btn btn-g" onclick="saveAdj()">Save Adjustment</button>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ct">Adjustment history</div></div>
+    <div id="adj-list"><div class="empty">No adjustments yet</div></div>
+  </div>
+</div>
+
+<div class="pg" id="pg-report">
+  <div class="sec-tabs">
+    <div class="stab on" onclick="showRpt('summary')">Summary</div>
+    <div class="stab" onclick="showRpt('shop')">Shop P/L</div>
+    <div class="stab" onclick="showRpt('labor-rpt')">Labor</div>
+    <div class="stab" onclick="showRpt('transport-rpt')">Transport</div>
+  </div>
+
+  <div id="rpt-summary">
+    <div class="card">
+      <div class="ch"><div class="ct">Period filter</div></div>
+      <div class="g2">
+        <div class="fr"><label>From</label><input type="date" id="r-from" /></div>
+        <div class="fr"><label>To</label><input type="date" id="r-to" /></div>
+      </div>
+      <div class="g2">
+        <button class="btn btn-o" onclick="setRptPeriod('week')" style="margin-top:0;">This week</button>
+        <button class="btn btn-o" onclick="setRptPeriod('month')" style="margin-top:0;">This month</button>
+      </div>
+    </div>
+    <div class="card" id="rpt-out">
+      <div class="empty">Select a period above to view report</div>
+    </div>
+  </div>
+
+  <div id="rpt-shop" style="display:none;">
+    <div class="card">
+      <div class="ch"><div class="ct">Purchase shop-wise</div></div>
+      <div id="shop-rpt"><div class="empty">No data</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">Sale buyer-wise</div></div>
+      <div id="buyer-rpt"><div class="empty">No data</div></div>
+    </div>
+  </div>
+
+  <div id="rpt-labor-rpt" style="display:none;">
+    <div class="card">
+      <div class="ch"><div class="ct">Labor — worker-wise</div></div>
+      <div id="labor-worker-rpt"><div class="empty">No data</div></div>
+    </div>
+  </div>
+
+  <div id="rpt-transport-rpt" style="display:none;">
+    <div class="card">
+      <div class="ch"><div class="ct">Transport — driver-wise</div></div>
+      <div id="transport-driver-rpt"><div class="empty">No data</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">Cleaner salary</div></div>
+      <div id="cleaner-rpt"><div class="empty">No data</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
 <script>
-const KEY = 'sss_veg_';
-let user = null, transactions = [];
+const K='sss3_';
+let DB={purchases:[],labors:[],transports:[],sales:[],adjustments:[]};
+let bItems=[],lItems=[],sItems=[];
 
-function load() {
-  try { const u = localStorage.getItem(KEY+'user'); if(u) user = JSON.parse(u); } catch(e){}
-  try { const t = localStorage.getItem(KEY+'txns'); if(t) transactions = JSON.parse(t); } catch(e){}
-}
-function persist() {
-  if(user) localStorage.setItem(KEY+'user', JSON.stringify(user));
-  localStorage.setItem(KEY+'txns', JSON.stringify(transactions));
-}
-function fmt(n){ return '₹'+Math.round(Math.abs(n)).toLocaleString('en-IN'); }
-function getVal(id){ return parseFloat(document.getElementById(id).value)||0; }
-function getTxt(id){ return document.getElementById(id).value.trim(); }
+function load(){try{const d=localStorage.getItem(K+'db');if(d)DB=JSON.parse(d);}catch(e){}}
+function save(){localStorage.setItem(K+'db',JSON.stringify(DB));}
+function fmt(n){return '₹'+Math.round(Math.abs(n)).toLocaleString('en-IN');}
+function fmtN(n){return (n<0?'-':'')+fmt(n);}
+function gv(id){return parseFloat(document.getElementById(id).value)||0;}
+function gt(id){return document.getElementById(id).value.trim();}
+function today(){return new Date().toISOString().slice(0,10);}
 
-function doGoogleLogin(){
-  const btn = document.querySelector('#login-view .btn-google');
-  btn.innerHTML = '<div class="spinner"></div> Connecting...';
-  btn.disabled = true;
-  fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:150,system:"Generate a South Indian vendor profile. Return ONLY JSON: {\"name\":\"...\",\"email\":\"...\",\"initials\":\"2 letters\"}. No markdown.",messages:[{role:"user",content:"Generate profile for SSS Vegetables vendor"}]})})
-  .then(r=>r.json()).then(d=>{ let p; try{p=JSON.parse(d.content[0].text);}catch(e){p={name:"SSS Vendor",email:"sss.vegetables@gmail.com",initials:"SS"};} user=p; persist(); showMain(); })
-  .catch(()=>{ user={name:"SSS Vendor",email:"sss.vegetables@gmail.com",initials:"SS"}; persist(); showMain(); });
-}
-
-function showMain(){
-  document.getElementById('login-view').style.display='none';
-  const mv=document.getElementById('main-view'); mv.style.display='flex';
-  document.getElementById('avatar-btn').textContent=user.initials||'SS';
-  document.getElementById('profile-name').textContent=user.name||'SSS Vendor';
-  document.getElementById('profile-email').textContent=user.email||'';
-  document.getElementById('rec-count').textContent=transactions.length+' transactions';
-  document.getElementById('sync-time').textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-  updateSummary();
-}
-
-function doLogout(){ user=null; localStorage.removeItem(KEY+'user'); location.reload(); }
-
-function switchTab(tab){
-  ['buy','sell','ledger','profile'].forEach((t,i)=>{
-    document.querySelectorAll('.tab')[i].classList.toggle('active',t===tab);
-    document.getElementById('sec-'+t).classList.toggle('visible',t===tab);
+function goTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>{
+    const ts=['purchase','labor','transport','sale','adjust','report'];
+    el.classList.toggle('on',ts[i]===t);
   });
-  if(tab==='ledger') renderLedger();
+  document.querySelectorAll('.pg').forEach(el=>el.classList.remove('on'));
+  document.getElementById('pg-'+t).classList.add('on');
+  if(t==='adjust')populateAdjSel();
+  if(t==='report'){showRpt('summary');renderAllRpts();}
+  updateSummaryBar();
 }
 
-function showToast(id,msg,type){
-  const t=document.getElementById(id); t.textContent=msg;
-  t.className='toast show '+(type==='err'?'toast-red':'toast-green');
-  setTimeout(()=>t.classList.remove('show'),2500);
+function toast(id,msg,ok){
+  const el=document.getElementById(id);
+  el.textContent=msg;el.className='toast on '+(ok?'tg':'tr2');
+  setTimeout(()=>el.classList.remove('on'),2500);
 }
 
-async function cloudSync(entry){
-  try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:60,system:"Confirm data sync. Reply ONLY with JSON: {\"ok\":true,\"id\":\"6-char alphanumeric\"}.",messages:[{role:"user",content:"sync:"+JSON.stringify({type:entry.type,veg:entry.veg,total:entry.total})}]})});
-    const d=await r.json(); return JSON.parse(d.content[0].text);
-  }catch(e){ return {ok:true,id:Math.random().toString(36).slice(2,8)}; }
+function addBuyItem(){
+  const v=gt('b-veg'),q=gv('b-qty'),p=gv('b-price');
+  if(!v||!q||!p){toast('b-toast','Vegetable, qty, price fill பண்ணுங்க',false);return;}
+  bItems.push({veg:v,qty:q,price:p});
+  document.getElementById('b-veg').value='';
+  document.getElementById('b-qty').value='';
+  document.getElementById('b-price').value='';
+  renderBItems();
 }
-
-async function savePurchase(){
-  const veg=getTxt('buy-veg'); if(!veg){showToast('buy-toast','Vegetable name enter பண்ணுங்க','err');return;}
-  const qty=getVal('buy-qty'),price=getVal('buy-price');
-  const entry={type:'buy',veg,qty,price,market:getTxt('buy-market'),transport:getVal('buy-transport'),labor:getVal('buy-labor'),total:qty*price,date:new Date().toLocaleDateString('en-IN'),ts:Date.now()};
-  document.getElementById('sync-dot').className='dot dot-amber';
-  document.getElementById('sync-text').textContent='Syncing...';
-  showToast('buy-toast','Saving...','ok');
-  const res=await cloudSync(entry); entry.cloudId=res.id;
-  transactions.push(entry); persist(); updateSummary();
-  document.getElementById('sync-dot').className='dot dot-green';
-  document.getElementById('sync-text').textContent='Synced — '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-  document.getElementById('rec-count').textContent=transactions.length+' transactions';
-  showToast('buy-toast','Saved! Cloud ID: '+res.id,'ok');
-  ['buy-veg','buy-qty','buy-price','buy-market','buy-transport','buy-labor'].forEach(id=>document.getElementById(id).value='');
+function renderBItems(){
+  const c=document.getElementById('b-items');
+  c.innerHTML=bItems.map((it,i)=>`<div class="itm-row"><span class="adj-label" style="font-size:12px;">${it.veg} — ${it.qty}kg × ₹${it.price} = ${fmt(it.qty*it.price)}</span><button class="itm-del" onclick="bItems.splice(${i},1);renderBItems();">X</button></div>`).join('');
 }
-
-async function saveSale(){
-  const veg=getTxt('sell-veg'); if(!veg){showToast('sell-toast','Vegetable name enter பண்ணுங்க','err');return;}
-  const qty=getVal('sell-qty'),price=getVal('sell-price');
-  const entry={type:'sell',veg,qty,price,buyer:getTxt('sell-buyer'),transport:getVal('sell-transport'),labor:getVal('sell-labor'),total:qty*price,date:new Date().toLocaleDateString('en-IN'),ts:Date.now()};
-  showToast('sell-toast','Saving...','ok');
-  const res=await cloudSync(entry); entry.cloudId=res.id;
-  transactions.push(entry); persist(); updateSummary();
-  document.getElementById('rec-count').textContent=transactions.length+' transactions';
-  showToast('sell-toast','Saved! Cloud ID: '+res.id,'ok');
-  ['sell-veg','sell-qty','sell-price','sell-buyer','sell-transport','sell-labor'].forEach(id=>document.getElementById(id).value='');
+function savePurchase(){
+  const date=gt('b-date')||today(),shop=gt('b-shop');
+  const v=gt('b-veg'),q=gv('b-qty'),p=gv('b-price');
+  if(v&&q&&p)bItems.push({veg:v,qty:q,price:p});
+  if(!shop||!bItems.length){toast('b-toast','Shop name & items தேவை',false);return;}
+  DB.purchases.push({id:uid(),date,shop,items:[...bItems],ts:Date.now()});
+  bItems=[];
+  document.getElementById('b-veg').value='';document.getElementById('b-qty').value='';document.getElementById('b-price').value='';
+  document.getElementById('b-shop').value='';document.getElementById('b-date').value='';
+  renderBItems();save();renderBList();updateSummaryBar();
+  toast('b-toast','Purchase saved!',true);
 }
-
-function updateSummary(){
-  let b=0,s=0,t=0,l=0;
-  transactions.forEach(x=>{if(x.type==='buy')b+=x.total;else s+=x.total;t+=(x.transport||0);l+=(x.labor||0);});
-  const net=s-b-t-l;
-  document.getElementById('totalBuy').textContent=fmt(b);
-  document.getElementById('totalSell').textContent=fmt(s);
-  document.getElementById('totalNet').textContent=fmt(net);
-  document.getElementById('totalNet').style.color=net>=0?'var(--green)':'var(--red)';
-  if(document.getElementById('sum-buy')){
-    document.getElementById('sum-buy').textContent=fmt(b);
-    document.getElementById('sum-sell').textContent=fmt(s);
-    document.getElementById('sum-transport').textContent=fmt(t);
-    document.getElementById('sum-labor').textContent=fmt(l);
-    document.getElementById('net-val').textContent=fmt(net);
-    const nb=document.getElementById('net-box');
-    nb.className='net-box '+(net>=0?'net-profit':'net-loss');
-    nb.querySelector('.nlabel').textContent=net>=0?'Net Profit':'Net Loss';
-  }
-}
-
-function renderLedger(){
-  updateSummary();
-  document.getElementById('ledger-date').textContent=new Date().toLocaleDateString('en-IN');
-  const list=document.getElementById('ledger-list');
-  if(!transactions.length){list.innerHTML='<div class="empty">No transactions yet.</div>';return;}
-  list.innerHTML=[...transactions].sort((a,b)=>b.ts-a.ts).map(t=>{
-    const isBuy=t.type==='buy';
-    const charges=(t.transport||0)+(t.labor||0);
-    return `<div class="ledger-row"><div class="ledger-left"><div class="title">${t.veg} <span class="badge ${isBuy?'badge-red':'badge-green'}" style="font-size:10px;">${isBuy?'Buy':'Sale'}</span></div><div class="meta">${t.qty}kg × ₹${t.price} | ${isBuy?(t.market||'Market'):(t.buyer||'Buyer')}${charges?' | Charges: ₹'+Math.round(charges):''} | ${t.date}</div></div><div class="ledger-right"><div class="amount" style="color:${isBuy?'var(--red)':'var(--green)'}">${isBuy?'-':'+'}${fmt(t.total)}</div></div></div>`;
+function renderBList(){
+  const c=document.getElementById('b-list');
+  const recent=[...DB.purchases].sort((a,b)=>b.ts-a.ts).slice(0,8);
+  if(!recent.length){c.innerHTML='<div class="empty">No purchases yet</div>';return;}
+  c.innerHTML=recent.map(p=>{
+    const tot=p.items.reduce((s,it)=>s+it.qty*it.price,0);
+    return `<div class="row"><div class="rl"><div class="t">${p.shop}</div><div class="m">${p.date} · ${p.items.map(it=>it.veg+' '+it.qty+'kg').join(', ')}</div></div><div class="rr"><div class="am" style="color:var(--r)">-${fmt(tot)}</div></div></div>`;
   }).join('');
 }
 
-function exportCSV(){
-  let csv='Type,Vegetable,Qty(kg),Price/kg,Total,Transport,Labor,Party,Date,CloudID\n';
-  transactions.forEach(t=>{csv+=`${t.type},${t.veg},${t.qty},${t.price},${t.total},${t.transport||0},${t.labor||0},${t.type==='buy'?(t.market||''):(t.buyer||'')},${t.date},${t.cloudId||''}\n`;});
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='SSS_Vegetables_Ledger.csv';a.click();
+function addLaborItem(){
+  const n=gt('l-name'),a=gv('l-amt'),tp=gt('l-type');
+  if(!n||!a){toast('l-toast','Name & amount fill பண்ணுங்க',false);return;}
+  lItems.push({name:n,amt:a,type:tp});
+  document.getElementById('l-name').value='';document.getElementById('l-amt').value='';document.getElementById('l-type').value='';
+  renderLItems();
+}
+function renderLItems(){
+  const c=document.getElementById('l-items');
+  c.innerHTML=lItems.map((it,i)=>`<div class="itm-row"><span class="adj-label" style="font-size:12px;">${it.name}${it.type?' ('+it.type+')':''} — ${fmt(it.amt)}</span><button class="itm-del" onclick="lItems.splice(${i},1);renderLItems();">X</button></div>`).join('');
+}
+function saveLabor(){
+  const date=gt('l-date')||today();
+  const n=gt('l-name'),a=gv('l-amt'),tp=gt('l-type');
+  if(n&&a)lItems.push({name:n,amt:a,type:tp});
+  if(!lItems.length){toast('l-toast','Atleast one worker add பண்ணுங்க',false);return;}
+  DB.labors.push({id:uid(),date,workers:[...lItems],ts:Date.now()});
+  lItems=[];
+  document.getElementById('l-name').value='';document.getElementById('l-amt').value='';document.getElementById('l-type').value='';document.getElementById('l-date').value='';
+  renderLItems();save();renderLList();updateSummaryBar();
+  toast('l-toast','Labor charges saved!',true);
+}
+function renderLList(){
+  const c=document.getElementById('l-list');
+  const recent=[...DB.labors].sort((a,b)=>b.ts-a.ts).slice(0,6);
+  if(!recent.length){c.innerHTML='<div class="empty">No labor entries yet</div>';return;}
+  c.innerHTML=recent.map(l=>{
+    const tot=l.workers.reduce((s,w)=>s+w.amt,0);
+    return `<div class="row"><div class="rl"><div class="t">${l.date}</div><div class="m">${l.workers.map(w=>w.name+(w.type?' ('+w.type+')':'')+': '+fmt(w.amt)).join(' · ')}</div></div><div class="rr"><div class="am" style="color:var(--a)">-${fmt(tot)}</div></div></div>`;
+  }).join('');
 }
 
+function saveTransport(){
+  const date=gt('t-date')||today(),driver=gt('t-driver'),route=gt('t-route'),amt=gv('t-amt'),cleaner=gt('t-cleaner'),camt=gv('t-cleaner-amt');
+  if(!driver||!amt){toast('t-toast','Driver name & amount தேவை',false);return;}
+  DB.transports.push({id:uid(),date,driver,route,amt,cleaner,camt,ts:Date.now()});
+  ['t-date','t-driver','t-route','t-amt','t-cleaner','t-cleaner-amt'].forEach(id=>document.getElementById(id).value='');
+  save();renderTList();updateSummaryBar();
+  toast('t-toast','Transport saved!',true);
+}
+function renderTList(){
+  const c=document.getElementById('t-list');
+  const recent=[...DB.transports].sort((a,b)=>b.ts-a.ts).slice(0,6);
+  if(!recent.length){c.innerHTML='<div class="empty">No transport entries yet</div>';return;}
+  c.innerHTML=recent.map(t=>{
+    const tot=t.amt+(t.camt||0);
+    return `<div class="row"><div class="rl"><div class="t">${t.driver}${t.route?' → '+t.route:''}</div><div class="m">${t.date}${t.cleaner?' · Cleaner: '+t.cleaner+' '+fmt(t.camt||0):''}</div></div><div class="rr"><div class="am" style="color:var(--a)">-${fmt(tot)}</div></div></div>`;
+  }).join('');
+}
+
+function addSaleItem(){
+  const v=gt('s-veg'),q=gv('s-qty'),p=gv('s-price'),buyer=gt('s-buyer');
+  if(!v||!q||!p){toast('s-toast','Vegetable, qty, price fill பண்ணுங்க',false);return;}
+  sItems.push({veg:v,qty:q,price:p,buyer});
+  document.getElementById('s-veg').value='';document.getElementById('s-qty').value='';document.getElementById('s-price').value='';document.getElementById('s-buyer').value='';
+  renderSItems();
+}
+function renderSItems(){
+  const c=document.getElementById('s-items');
+  c.innerHTML=sItems.map((it,i)=>`<div class="itm-row"><span class="adj-label" style="font-size:12px;">${it.veg}${it.buyer?' → '+it.buyer:''} — ${it.qty}kg × ₹${it.price} = ${fmt(it.qty*it.price)}</span><button class="itm-del" onclick="sItems.splice(${i},1);renderSItems();">X</button></div>`).join('');
+}
+function saveSale(){
+  const date=gt('s-date')||today(),buyer=gt('s-buyer');
+  const v=gt('s-veg'),q=gv('s-qty'),p=gv('s-price');
+  if(v&&q&&p)sItems.push({veg:v,qty:q,price:p,buyer});
+  if(!sItems.length){toast('s-toast','Atleast one item add பண்ணுங்க',false);return;}
+  DB.sales.push({id:uid(),date,items:[...sItems],ts:Date.now()});
+  sItems=[];
+  ['s-date','s-buyer','s-veg','s-qty','s-price'].forEach(id=>document.getElementById(id).value='');
+  renderSItems();save();renderSList();updateSummaryBar();populateAdjSel();
+  toast('s-toast','Sale saved!',true);
+}
+function renderSList(){
+  const c=document.getElementById('s-list');
+  const recent=[...DB.sales].sort((a,b)=>b.ts-a.ts).slice(0,8);
+  if(!recent.length){c.innerHTML='<div class="empty">No sales yet</div>';return;}
+  c.innerHTML=recent.map(s=>{
+    const tot=s.items.reduce((sm,it)=>sm+(it.adjQty||it.qty)*(it.adjPrice||it.price),0);
+    const buyers=[...new Set(s.items.map(it=>it.buyer).filter(Boolean))];
+    return `<div class="row"><div class="rl"><div class="t">${buyers.join(', ')||'Sale'}</div><div class="m">${s.date} · ${s.items.map(it=>(it.veg||'?')+' '+(it.adjQty||it.qty)+'kg').join(', ')}</div></div><div class="rr"><div class="am" style="color:var(--g)">+${fmt(tot)}</div></div></div>`;
+  }).join('');
+}
+
+function populateAdjSel(){
+  const sel=document.getElementById('adj-sel');
+  sel.innerHTML='<option value="">-- Select a sale --</option>';
+  [...DB.sales].sort((a,b)=>b.ts-a.ts).forEach(s=>{
+    const buyers=[...new Set(s.items.map(it=>it.buyer).filter(Boolean))];
+    const label=s.date+' · '+(buyers.join(',')||'Sale')+' · '+s.items.map(it=>it.veg).join(',');
+    sel.innerHTML+=`<option value="${s.id}">${label}</option>`;
+  });
+  sel.onchange=()=>{
+    const sid=sel.value;
+    const ad=document.getElementById('adj-detail');
+    if(!sid){ad.style.display='none';return;}
+    const sale=DB.sales.find(s=>s.id===sid);
+    if(!sale){ad.style.display='none';return;}
+    ad.style.display='block';
+    const tot=sale.items.reduce((sm,it)=>sm+(it.adjQty||it.qty)*(it.adjPrice||it.price),0);
+    document.getElementById('adj-qty').value='';
+    document.getElementById('adj-price').value='';
+    document.getElementById('adj-reason').value='';
+    document.getElementById('adj-diff').textContent='Original total: '+fmt(tot)+' · Items: '+sale.items.map(it=>it.veg+' '+(it.adjQty||it.qty)+'kg × ₹'+(it.adjPrice||it.price)).join(', ');
+  };
+}
+function saveAdj(){
+  const sid=document.getElementById('adj-sel').value;
+  if(!sid){toast('adj-toast','Sale select பண்ணுங்க',false);return;}
+  const sale=DB.sales.find(s=>s.id===sid);
+  if(!sale)return;
+  const aq=gv('adj-qty'),ap=gv('adj-price'),reason=gt('adj-reason');
+  const origTot=sale.items.reduce((s,it)=>s+it.qty*it.price,0);
+  sale.items.forEach(it=>{if(aq)it.adjQty=aq/sale.items.length;if(ap)it.adjPrice=ap;});
+  const newTot=sale.items.reduce((s,it)=>s+(it.adjQty||it.qty)*(it.adjPrice||it.price),0);
+  DB.adjustments.push({id:uid(),saleId:sid,reason,origTot,newTot,date:today(),ts:Date.now()});
+  save();renderSList();updateSummaryBar();renderAdjList();
+  toast('adj-toast','Adjustment saved! Difference: '+fmtN(newTot-origTot),true);
+}
+function renderAdjList(){
+  const c=document.getElementById('adj-list');
+  if(!DB.adjustments.length){c.innerHTML='<div class="empty">No adjustments yet</div>';return;}
+  c.innerHTML=[...DB.adjustments].sort((a,b)=>b.ts-a.ts).slice(0,6).map(a=>`<div class="row"><div class="rl"><div class="t">${a.reason||'Adjustment'}</div><div class="m">${a.date} · ${fmt(a.origTot)} → ${fmt(a.newTot)}</div></div><div class="rr"><div class="am" style="color:${a.newTot>=a.origTot?'var(--g)':'var(--r)'}">${fmtN(a.newTot-a.origTot)}</div></div></div>`).join('');
+}
+
+function getTotals(from,to){
+  function inRange(d){if(!from&&!to)return true;if(from&&d<from)return false;if(to&&d>to)return false;return true;}
+  let buyTot=0,sellTot=0,laborTot=0,transportTot=0;
+  DB.purchases.filter(p=>inRange(p.date)).forEach(p=>p.items.forEach(it=>buyTot+=it.qty*it.price));
+  DB.sales.filter(s=>inRange(s.date)).forEach(s=>s.items.forEach(it=>sellTot+=(it.adjQty||it.qty)*(it.adjPrice||it.price)));
+  DB.labors.filter(l=>inRange(l.date)).forEach(l=>l.workers.forEach(w=>laborTot+=w.amt));
+  DB.transports.filter(t=>inRange(t.date)).forEach(t=>transportTot+=t.amt+(t.camt||0));
+  return{buyTot,sellTot,laborTot,transportTot,net:sellTot-buyTot-laborTot-transportTot};
+}
+
+function updateSummaryBar(){
+  const{buyTot,sellTot,net}=getTotals();
+  document.getElementById('sb-buy').textContent=fmt(buyTot);
+  document.getElementById('sb-sell').textContent=fmt(sellTot);
+  document.getElementById('sb-net').textContent=fmt(net);
+  document.getElementById('sb-net').style.color=net>=0?'var(--g)':'var(--r)';
+}
+
+function setRptPeriod(p){
+  const now=new Date(),y=now.getFullYear(),m=now.getMonth();
+  let from,to=today();
+  if(p==='week'){const d=new Date(now);d.setDate(d.getDate()-6);from=d.toISOString().slice(0,10);}
+  else{from=new Date(y,m,1).toISOString().slice(0,10);}
+  document.getElementById('r-from').value=from;
+  document.getElementById('r-to').value=to;
+  renderSummaryRpt(from,to);
+}
+function renderSummaryRpt(from,to){
+  if(!from&&!to){from=gt('r-from');to=gt('r-to');}
+  const{buyTot,sellTot,laborTot,transportTot,net}=getTotals(from,to);
+  const el=document.getElementById('rpt-out');
+  el.innerHTML=`
+    <div class="rpt-row"><span>Total purchase</span><span style="color:var(--r)">-${fmt(buyTot)}</span></div>
+    <div class="rpt-row"><span>Total sale</span><span style="color:var(--g)">+${fmt(sellTot)}</span></div>
+    <div class="rpt-row"><span>Labor expenses</span><span style="color:var(--a)">-${fmt(laborTot)}</span></div>
+    <div class="rpt-row"><span>Transport expenses</span><span style="color:var(--a)">-${fmt(transportTot)}</span></div>
+    <div class="net-b ${net>=0?'nbg':'nbr'}"><span class="nl">${net>=0?'Net Profit':'Net Loss'}</span><span class="nv">${fmt(net)}</span></div>
+    <div style="font-size:11px;color:var(--mu);margin-top:8px;text-align:center;">${from?from+' to '+to:'All time'}</div>`;
+}
+document.getElementById('r-from').addEventListener('change',()=>renderSummaryRpt(gt('r-from'),gt('r-to')));
+document.getElementById('r-to').addEventListener('change',()=>renderSummaryRpt(gt('r-from'),gt('r-to')));
+
+function renderAllRpts(){
+  renderSummaryRpt(gt('r-from'),gt('r-to'));
+  const shopMap={};
+  DB.purchases.forEach(p=>p.items.forEach(it=>{shopMap[p.shop]=(shopMap[p.shop]||0)+it.qty*it.price;}));
+  const shopEl=document.getElementById('shop-rpt');
+  const shops=Object.entries(shopMap).sort((a,b)=>b[1]-a[1]);
+  shopEl.innerHTML=shops.length?shops.map(([sh,tot])=>`<div class="rpt-row"><span>${sh}</span><span style="color:var(--r)">-${fmt(tot)}</span></div>`).join(''):'<div class="empty">No data</div>';
+
+  const buyerMap={};
+  DB.sales.forEach(s=>s.items.forEach(it=>{const b=it.buyer||'Unknown';buyerMap[b]=(buyerMap[b]||0)+(it.adjQty||it.qty)*(it.adjPrice||it.price);}));
+  const buyerEl=document.getElementById('buyer-rpt');
+  const buyers=Object.entries(buyerMap).sort((a,b)=>b[1]-a[1]);
+  buyerEl.innerHTML=buyers.length?buyers.map(([b,tot])=>`<div class="rpt-row"><span>${b}</span><span style="color:var(--g)">+${fmt(tot)}</span></div>`).join(''):'<div class="empty">No data</div>';
+
+  const workerMap={};
+  DB.labors.forEach(l=>l.workers.forEach(w=>{workerMap[w.name]=(workerMap[w.name]||0)+w.amt;}));
+  const wEl=document.getElementById('labor-worker-rpt');
+  const workers=Object.entries(workerMap).sort((a,b)=>b[1]-a[1]);
+  wEl.innerHTML=workers.length?workers.map(([w,tot])=>`<div class="rpt-row"><span>${w}</span><span style="color:var(--a)">-${fmt(tot)}</span></div>`).join(''):'<div class="empty">No data</div>';
+
+  const driverMap={},cleanerMap={};
+  DB.transports.forEach(t=>{driverMap[t.driver]=(driverMap[t.driver]||0)+t.amt;if(t.cleaner&&t.camt)cleanerMap[t.cleaner]=(cleanerMap[t.cleaner]||0)+t.camt;});
+  const dEl=document.getElementById('transport-driver-rpt');
+  const drivers=Object.entries(driverMap).sort((a,b)=>b[1]-a[1]);
+  dEl.innerHTML=drivers.length?drivers.map(([d,tot])=>`<div class="rpt-row"><span>${d}</span><span style="color:var(--a)">-${fmt(tot)}</span></div>`).join(''):'<div class="empty">No data</div>';
+  const cEl=document.getElementById('cleaner-rpt');
+  const cleaners=Object.entries(cleanerMap).sort((a,b)=>b[1]-a[1]);
+  cEl.innerHTML=cleaners.length?cleaners.map(([c,tot])=>`<div class="rpt-row"><span>${c}</span><span style="color:var(--a)">-${fmt(tot)}</span></div>`).join(''):'<div class="empty">No data</div>';
+}
+
+function showRpt(r){
+  document.querySelectorAll('.stab').forEach((el,i)=>{const rs=['summary','shop','labor-rpt','transport-rpt'];el.classList.toggle('on',rs[i]===r);});
+  ['rpt-summary','rpt-shop','rpt-labor-rpt','rpt-transport-rpt'].forEach(id=>{document.getElementById(id).style.display=id==='rpt-'+r?'block':'none';});
+  renderAllRpts();
+}
+
+function uid(){return Math.random().toString(36).slice(2,10);}
+
 load();
-if(user) showMain();
+renderBList();renderLList();renderTList();renderSList();renderAdjList();
+updateSummaryBar();
+document.getElementById('b-date').value=today();
+document.getElementById('l-date').value=today();
+document.getElementById('t-date').value=today();
+document.getElementById('s-date').value=today();
 </script>
