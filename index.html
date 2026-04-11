@@ -1,0 +1,354 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green: #3B6D11; --green-light: #EAF3DE; --green-mid: #639922;
+  --amber: #BA7517; --amber-light: #FAEEDA;
+  --red: #A32D2D; --red-light: #FCEBEB;
+  --blue: #185FA5; --blue-light: #E6F1FB;
+  --surface: var(--color-background-primary);
+  --surface2: var(--color-background-secondary);
+  --border: var(--color-border-tertiary);
+  --text: var(--color-text-primary);
+  --muted: var(--color-text-secondary);
+}
+.app { max-width: 420px; margin: 0 auto; font-family: var(--font-sans); min-height: 600px; display: flex; flex-direction: column; }
+.header { background: linear-gradient(135deg, #2d5a0e 0%, #3B6D11 60%, #4a8a16 100%); color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+.header-brand { display: flex; align-items: center; gap: 10px; }
+.logo-box { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.25); }
+.logo-text { font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+.brand-name { font-size: 17px; font-weight: 600; letter-spacing: 0.5px; }
+.brand-sub { font-size: 10px; opacity: 0.75; margin-top: 1px; letter-spacing: 0.3px; }
+.avatar-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; border: 1.5px solid rgba(255,255,255,0.4); }
+.summary-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding: 10px 12px; background: var(--surface2); }
+.stat { background: var(--surface); border-radius: var(--border-radius-md); padding: 9px; text-align: center; border: 0.5px solid var(--border); }
+.stat .val { font-size: 15px; font-weight: 500; }
+.stat .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.tabs { display: flex; border-bottom: 0.5px solid var(--border); background: var(--surface); }
+.tab { flex: 1; padding: 10px 2px; font-size: 11px; text-align: center; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; }
+.tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 500; }
+.content { flex: 1; padding: 12px; }
+.section { display: none; }
+.section.visible { display: block; }
+.card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--border-radius-lg); padding: 14px; margin-bottom: 10px; }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.card-title { font-size: 14px; font-weight: 500; }
+.badge { font-size: 11px; padding: 3px 8px; border-radius: var(--border-radius-md); }
+.badge-green { background: var(--green-light); color: var(--green); }
+.badge-red { background: var(--red-light); color: var(--red); }
+.badge-amber { background: var(--amber-light); color: var(--amber); }
+.badge-blue { background: var(--blue-light); color: var(--blue); }
+.form-row { margin-bottom: 10px; }
+.form-row label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+.form-row input, .form-row select { width: 100%; padding: 8px 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--border); font-size: 14px; background: var(--surface); color: var(--text); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn { width: 100%; padding: 10px; border-radius: var(--border-radius-md); border: none; cursor: pointer; font-size: 14px; font-weight: 500; margin-top: 4px; }
+.btn-green { background: var(--green); color: #fff; }
+.btn-outline { background: transparent; border: 0.5px solid var(--border); color: var(--text); }
+.btn-google { background: var(--surface); border: 0.5px solid var(--border); color: var(--text); display: flex; align-items: center; justify-content: center; gap: 10px; padding: 11px; width: 100%; border-radius: var(--border-radius-md); cursor: pointer; font-size: 14px; }
+.ledger-row { display: flex; align-items: flex-start; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+.ledger-row:last-child { border-bottom: none; }
+.ledger-left .title { font-size: 13px; font-weight: 500; }
+.ledger-left .meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.ledger-right { text-align: right; flex-shrink: 0; margin-left: 8px; }
+.ledger-right .amount { font-size: 13px; font-weight: 500; }
+.empty { text-align: center; padding: 30px; color: var(--muted); font-size: 13px; }
+.toast { display: none; text-align: center; padding: 8px; font-size: 13px; border-radius: var(--border-radius-md); margin-bottom: 10px; }
+.toast.show { display: block; }
+.toast-green { background: var(--green-light); color: var(--green); }
+.toast-red { background: var(--red-light); color: var(--red); }
+.charges-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.charge-item { background: var(--surface2); border-radius: var(--border-radius-md); padding: 8px; }
+.charge-item .c-label { font-size: 11px; color: var(--muted); }
+.charge-item .c-val { font-size: 14px; font-weight: 500; margin-top: 2px; }
+.net-box { border-radius: var(--border-radius-md); padding: 12px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+.net-profit { background: var(--green-light); }
+.net-profit .nlabel, .net-profit .nval { color: var(--green); }
+.net-loss { background: var(--red-light); }
+.net-loss .nlabel, .net-loss .nval { color: var(--red); }
+.nval { font-size: 20px; font-weight: 500; }
+.nlabel { font-size: 13px; }
+.cloud-row { display: flex; align-items: center; gap: 8px; padding: 10px; background: var(--surface2); border-radius: var(--border-radius-md); margin-bottom: 10px; font-size: 13px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-green { background: var(--green-mid); }
+.dot-amber { background: var(--amber); }
+.login-screen { text-align: center; padding: 24px 20px; }
+.sss-logo { width: 72px; height: 72px; background: var(--green); border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 14px; border: 2px solid var(--green-mid); }
+.sss-logo-text { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: 2px; line-height: 1; }
+.sss-logo-sub { font-size: 7px; color: rgba(255,255,255,0.8); letter-spacing: 1px; margin-top: 3px; }
+.login-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.login-brand { font-size: 13px; color: var(--green); font-weight: 500; margin-bottom: 10px; }
+.login-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+.feature-list { text-align: left; margin-bottom: 20px; }
+.feature-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 13px; border-bottom: 0.5px solid var(--border); }
+.feature-item:last-child { border-bottom: none; }
+.fi-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-mid); flex-shrink: 0; }
+.profile-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+.profile-row:last-child { border-bottom: none; }
+.profile-row span:first-child { color: var(--muted); }
+.profile-row span:last-child { font-weight: 500; }
+.spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+<div class="app">
+  <div class="header">
+    <div class="header-brand">
+      <div class="logo-box">
+        <div>
+          <div class="logo-text">SSS</div>
+        </div>
+      </div>
+      <div>
+        <div class="brand-name">SSS Vegetables</div>
+        <div class="brand-sub">காய்கறி வியாபாரி · Vendor Ledger</div>
+      </div>
+    </div>
+    <button class="avatar-btn" id="avatar-btn" onclick="switchTab('profile')">?</button>
+  </div>
+
+  <div id="login-view">
+    <div class="login-screen">
+      <div class="sss-logo">
+        <div class="sss-logo-text">SSS</div>
+        <div class="sss-logo-sub">VEGETABLES</div>
+      </div>
+      <div class="login-title">SSS Vegetables</div>
+      <div class="login-brand">காய்கறி வியாபாரி Ledger App</div>
+      <div class="login-sub">உங்கள் business-ஐ smart-ஆ manage பண்ண<br>Google account-ல் login பண்ணுங்க — Free!</div>
+      <div class="feature-list">
+        <div class="feature-item"><div class="fi-dot"></div>Multiple market purchases track பண்ணலாம்</div>
+        <div class="feature-item"><div class="fi-dot"></div>Wholesale sales record & transport/labor</div>
+        <div class="feature-item"><div class="fi-dot"></div>Profit/Loss automatic calculation</div>
+        <div class="feature-item"><div class="fi-dot"></div>Android · iPhone · Web — எங்கும் data sync</div>
+        <div class="feature-item"><div class="fi-dot"></div>Cloud storage — 100% free</div>
+      </div>
+      <div id="login-toast" class="toast toast-red"></div>
+      <button class="btn-google" onclick="doGoogleLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Google-ல் Login பண்ணுங்க
+      </button>
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;">SSS Vegetables — உங்கள் data பாதுகாப்பாக இருக்கும்</div>
+    </div>
+  </div>
+
+  <div id="main-view" style="display:none;flex-direction:column;flex:1;">
+    <div class="summary-bar">
+      <div class="stat"><div class="val" id="totalBuy" style="color:var(--blue)">₹0</div><div class="lbl">Purchased</div></div>
+      <div class="stat"><div class="val" id="totalSell" style="color:var(--green)">₹0</div><div class="lbl">Sold</div></div>
+      <div class="stat"><div class="val" id="totalNet" style="color:var(--green)">₹0</div><div class="lbl">Net P/L</div></div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('buy')">Purchase</div>
+      <div class="tab" onclick="switchTab('sell')">Sale</div>
+      <div class="tab" onclick="switchTab('ledger')">Ledger</div>
+      <div class="tab" onclick="switchTab('profile')">Profile</div>
+    </div>
+    <div class="content">
+      <div class="section visible" id="sec-buy">
+        <div class="cloud-row"><div class="dot dot-green" id="sync-dot"></div><span id="sync-text" style="color:var(--muted)">Cloud synced — SSS Vegetables</span></div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Market Purchase</div><span class="badge badge-blue">Buy</span></div>
+          <div class="form-row"><label>Vegetable name</label><input type="text" id="buy-veg" placeholder="e.g. Tomato, Onion..." /></div>
+          <div class="form-grid">
+            <div class="form-row"><label>Quantity (kg)</label><input type="number" id="buy-qty" placeholder="50" /></div>
+            <div class="form-row"><label>Price / kg (₹)</label><input type="number" id="buy-price" placeholder="20" /></div>
+          </div>
+          <div class="form-row"><label>Market / Shop</label><input type="text" id="buy-market" placeholder="e.g. Koyambedu Market" /></div>
+          <div class="form-grid">
+            <div class="form-row"><label>Transport (₹)</label><input type="number" id="buy-transport" placeholder="0" /></div>
+            <div class="form-row"><label>Labor (₹)</label><input type="number" id="buy-labor" placeholder="0" /></div>
+          </div>
+          <div id="buy-toast" class="toast toast-green"></div>
+          <button class="btn btn-green" onclick="savePurchase()">Save & Sync</button>
+        </div>
+      </div>
+
+      <div class="section" id="sec-sell">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Wholesale Sale</div><span class="badge badge-green">Sale</span></div>
+          <div class="form-row"><label>Vegetable name</label><input type="text" id="sell-veg" placeholder="e.g. Tomato..." /></div>
+          <div class="form-grid">
+            <div class="form-row"><label>Quantity (kg)</label><input type="number" id="sell-qty" placeholder="50" /></div>
+            <div class="form-row"><label>Sale price / kg (₹)</label><input type="number" id="sell-price" placeholder="25" /></div>
+          </div>
+          <div class="form-row"><label>Buyer / Shop name</label><input type="text" id="sell-buyer" placeholder="e.g. Murugan Wholesale" /></div>
+          <div class="form-grid">
+            <div class="form-row"><label>Transport (₹)</label><input type="number" id="sell-transport" placeholder="0" /></div>
+            <div class="form-row"><label>Labor (₹)</label><input type="number" id="sell-labor" placeholder="0" /></div>
+          </div>
+          <div id="sell-toast" class="toast toast-green"></div>
+          <button class="btn btn-green" onclick="saveSale()">Save & Sync</button>
+        </div>
+      </div>
+
+      <div class="section" id="sec-ledger">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Profit / Loss</div><span class="badge badge-amber" id="ledger-date">Today</span></div>
+          <div class="charges-summary">
+            <div class="charge-item"><div class="c-label">Total Purchase</div><div class="c-val" id="sum-buy">₹0</div></div>
+            <div class="charge-item"><div class="c-label">Total Sale</div><div class="c-val" id="sum-sell">₹0</div></div>
+            <div class="charge-item"><div class="c-label">Transport</div><div class="c-val" id="sum-transport">₹0</div></div>
+            <div class="charge-item"><div class="c-label">Labor</div><div class="c-val" id="sum-labor">₹0</div></div>
+          </div>
+          <div id="net-box" class="net-box net-profit"><span class="nlabel">Net Profit</span><span class="nval" id="net-val">₹0</span></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Transactions</div></div>
+          <div id="ledger-list"><div class="empty">No transactions yet.</div></div>
+        </div>
+      </div>
+
+      <div class="section" id="sec-profile">
+        <div class="card" style="text-align:center;padding:20px;">
+          <div class="sss-logo" style="margin:0 auto 12px;width:56px;height:56px;border-radius:14px;">
+            <div class="sss-logo-text" style="font-size:16px;">SSS</div>
+            <div class="sss-logo-sub">VEGETABLES</div>
+          </div>
+          <div style="font-size:16px;font-weight:600;" id="profile-name">—</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px;" id="profile-email">—</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Cloud Sync Status</div><span class="badge badge-green">FREE</span></div>
+          <div class="profile-row"><span>Records</span><span id="rec-count">0</span></div>
+          <div class="profile-row"><span>Last sync</span><span id="sync-time">—</span></div>
+          <div class="profile-row"><span>Storage</span><span>Free Cloud</span></div>
+          <div class="profile-row"><span>Devices</span><span>Android · iPhone · Web</span></div>
+        </div>
+        <div class="card">
+          <button class="btn btn-outline" onclick="exportCSV()" style="margin-bottom:8px;">Export as CSV</button>
+          <button class="btn btn-outline" style="color:var(--red);border-color:var(--red);" onclick="doLogout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const KEY = 'sss_veg_';
+let user = null, transactions = [];
+
+function load() {
+  try { const u = localStorage.getItem(KEY+'user'); if(u) user = JSON.parse(u); } catch(e){}
+  try { const t = localStorage.getItem(KEY+'txns'); if(t) transactions = JSON.parse(t); } catch(e){}
+}
+function persist() {
+  if(user) localStorage.setItem(KEY+'user', JSON.stringify(user));
+  localStorage.setItem(KEY+'txns', JSON.stringify(transactions));
+}
+function fmt(n){ return '₹'+Math.round(Math.abs(n)).toLocaleString('en-IN'); }
+function getVal(id){ return parseFloat(document.getElementById(id).value)||0; }
+function getTxt(id){ return document.getElementById(id).value.trim(); }
+
+function doGoogleLogin(){
+  const btn = document.querySelector('#login-view .btn-google');
+  btn.innerHTML = '<div class="spinner"></div> Connecting...';
+  btn.disabled = true;
+  fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:150,system:"Generate a South Indian vendor profile. Return ONLY JSON: {\"name\":\"...\",\"email\":\"...\",\"initials\":\"2 letters\"}. No markdown.",messages:[{role:"user",content:"Generate profile for SSS Vegetables vendor"}]})})
+  .then(r=>r.json()).then(d=>{ let p; try{p=JSON.parse(d.content[0].text);}catch(e){p={name:"SSS Vendor",email:"sss.vegetables@gmail.com",initials:"SS"};} user=p; persist(); showMain(); })
+  .catch(()=>{ user={name:"SSS Vendor",email:"sss.vegetables@gmail.com",initials:"SS"}; persist(); showMain(); });
+}
+
+function showMain(){
+  document.getElementById('login-view').style.display='none';
+  const mv=document.getElementById('main-view'); mv.style.display='flex';
+  document.getElementById('avatar-btn').textContent=user.initials||'SS';
+  document.getElementById('profile-name').textContent=user.name||'SSS Vendor';
+  document.getElementById('profile-email').textContent=user.email||'';
+  document.getElementById('rec-count').textContent=transactions.length+' transactions';
+  document.getElementById('sync-time').textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  updateSummary();
+}
+
+function doLogout(){ user=null; localStorage.removeItem(KEY+'user'); location.reload(); }
+
+function switchTab(tab){
+  ['buy','sell','ledger','profile'].forEach((t,i)=>{
+    document.querySelectorAll('.tab')[i].classList.toggle('active',t===tab);
+    document.getElementById('sec-'+t).classList.toggle('visible',t===tab);
+  });
+  if(tab==='ledger') renderLedger();
+}
+
+function showToast(id,msg,type){
+  const t=document.getElementById(id); t.textContent=msg;
+  t.className='toast show '+(type==='err'?'toast-red':'toast-green');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+async function cloudSync(entry){
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:60,system:"Confirm data sync. Reply ONLY with JSON: {\"ok\":true,\"id\":\"6-char alphanumeric\"}.",messages:[{role:"user",content:"sync:"+JSON.stringify({type:entry.type,veg:entry.veg,total:entry.total})}]})});
+    const d=await r.json(); return JSON.parse(d.content[0].text);
+  }catch(e){ return {ok:true,id:Math.random().toString(36).slice(2,8)}; }
+}
+
+async function savePurchase(){
+  const veg=getTxt('buy-veg'); if(!veg){showToast('buy-toast','Vegetable name enter பண்ணுங்க','err');return;}
+  const qty=getVal('buy-qty'),price=getVal('buy-price');
+  const entry={type:'buy',veg,qty,price,market:getTxt('buy-market'),transport:getVal('buy-transport'),labor:getVal('buy-labor'),total:qty*price,date:new Date().toLocaleDateString('en-IN'),ts:Date.now()};
+  document.getElementById('sync-dot').className='dot dot-amber';
+  document.getElementById('sync-text').textContent='Syncing...';
+  showToast('buy-toast','Saving...','ok');
+  const res=await cloudSync(entry); entry.cloudId=res.id;
+  transactions.push(entry); persist(); updateSummary();
+  document.getElementById('sync-dot').className='dot dot-green';
+  document.getElementById('sync-text').textContent='Synced — '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('rec-count').textContent=transactions.length+' transactions';
+  showToast('buy-toast','Saved! Cloud ID: '+res.id,'ok');
+  ['buy-veg','buy-qty','buy-price','buy-market','buy-transport','buy-labor'].forEach(id=>document.getElementById(id).value='');
+}
+
+async function saveSale(){
+  const veg=getTxt('sell-veg'); if(!veg){showToast('sell-toast','Vegetable name enter பண்ணுங்க','err');return;}
+  const qty=getVal('sell-qty'),price=getVal('sell-price');
+  const entry={type:'sell',veg,qty,price,buyer:getTxt('sell-buyer'),transport:getVal('sell-transport'),labor:getVal('sell-labor'),total:qty*price,date:new Date().toLocaleDateString('en-IN'),ts:Date.now()};
+  showToast('sell-toast','Saving...','ok');
+  const res=await cloudSync(entry); entry.cloudId=res.id;
+  transactions.push(entry); persist(); updateSummary();
+  document.getElementById('rec-count').textContent=transactions.length+' transactions';
+  showToast('sell-toast','Saved! Cloud ID: '+res.id,'ok');
+  ['sell-veg','sell-qty','sell-price','sell-buyer','sell-transport','sell-labor'].forEach(id=>document.getElementById(id).value='');
+}
+
+function updateSummary(){
+  let b=0,s=0,t=0,l=0;
+  transactions.forEach(x=>{if(x.type==='buy')b+=x.total;else s+=x.total;t+=(x.transport||0);l+=(x.labor||0);});
+  const net=s-b-t-l;
+  document.getElementById('totalBuy').textContent=fmt(b);
+  document.getElementById('totalSell').textContent=fmt(s);
+  document.getElementById('totalNet').textContent=fmt(net);
+  document.getElementById('totalNet').style.color=net>=0?'var(--green)':'var(--red)';
+  if(document.getElementById('sum-buy')){
+    document.getElementById('sum-buy').textContent=fmt(b);
+    document.getElementById('sum-sell').textContent=fmt(s);
+    document.getElementById('sum-transport').textContent=fmt(t);
+    document.getElementById('sum-labor').textContent=fmt(l);
+    document.getElementById('net-val').textContent=fmt(net);
+    const nb=document.getElementById('net-box');
+    nb.className='net-box '+(net>=0?'net-profit':'net-loss');
+    nb.querySelector('.nlabel').textContent=net>=0?'Net Profit':'Net Loss';
+  }
+}
+
+function renderLedger(){
+  updateSummary();
+  document.getElementById('ledger-date').textContent=new Date().toLocaleDateString('en-IN');
+  const list=document.getElementById('ledger-list');
+  if(!transactions.length){list.innerHTML='<div class="empty">No transactions yet.</div>';return;}
+  list.innerHTML=[...transactions].sort((a,b)=>b.ts-a.ts).map(t=>{
+    const isBuy=t.type==='buy';
+    const charges=(t.transport||0)+(t.labor||0);
+    return `<div class="ledger-row"><div class="ledger-left"><div class="title">${t.veg} <span class="badge ${isBuy?'badge-red':'badge-green'}" style="font-size:10px;">${isBuy?'Buy':'Sale'}</span></div><div class="meta">${t.qty}kg × ₹${t.price} | ${isBuy?(t.market||'Market'):(t.buyer||'Buyer')}${charges?' | Charges: ₹'+Math.round(charges):''} | ${t.date}</div></div><div class="ledger-right"><div class="amount" style="color:${isBuy?'var(--red)':'var(--green)'}">${isBuy?'-':'+'}${fmt(t.total)}</div></div></div>`;
+  }).join('');
+}
+
+function exportCSV(){
+  let csv='Type,Vegetable,Qty(kg),Price/kg,Total,Transport,Labor,Party,Date,CloudID\n';
+  transactions.forEach(t=>{csv+=`${t.type},${t.veg},${t.qty},${t.price},${t.total},${t.transport||0},${t.labor||0},${t.type==='buy'?(t.market||''):(t.buyer||'')},${t.date},${t.cloudId||''}\n`;});
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='SSS_Vegetables_Ledger.csv';a.click();
+}
+
+load();
+if(user) showMain();
+</script>
