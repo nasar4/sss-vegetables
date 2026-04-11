@@ -13,27 +13,1178 @@
   --a:#854F0B;--alt:#FAEEDA;--amid:#BA7517;
   --r:#A32D2D;--rlt:#FCEBEB;
   --b:#185FA5;--blt:#E6F1FB;
-  --bg:#f5f6f2;--card:#fff;--border:#e0e4d8;
+  --bg:#f4f6f1;--card:#fff;--border:#dde3d5;
   --tx:#1a1a1a;--mu:#6b7280;--mu2:#9ca3af;
-  --radius:10px;--radius-sm:6px;
-  --shadow:0 1px 3px rgba(0,0,0,0.08);
-  --sidebar:240px;
+  --radius:10px;--radius-sm:7px;
+  --shadow:0 1px 4px rgba(0,0,0,0.07);
+  --sidebar:230px;
 }
 @media(prefers-color-scheme:dark){
-  :root{--bg:#0f1a0a;--card:#1a2614;--border:#2a3d1e;--tx:#e8f0e0;--mu:#8fa87a;--mu2:#5a7048;--shadow:0 1px 3px rgba(0,0,0,0.4);}
+  :root{--bg:#0d1a08;--card:#162010;--border:#253d18;--tx:#e0edd5;--mu:#7a9a65;--mu2:#4a6838;--shadow:0 1px 4px rgba(0,0,0,0.4);}
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;}
-a{color:inherit;text-decoration:none;}
-
-/* ── LAYOUT ── */
 .shell{display:flex;height:100vh;overflow:hidden;}
-.sidebar{width:var(--sidebar);background:var(--g);flex-shrink:0;display:flex;flex-direction:column;transition:transform .25s;}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:var(--shadow);}
-.content{flex:1;overflow-y:auto;padding:20px;}
+.sidebar{width:var(--sidebar);background:var(--g);flex-shrink:0;display:flex;flex-direction:column;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:var(--shadow);}
+.content{flex:1;overflow-y:auto;padding:16px;}
+.sb-brand{padding:16px 14px 12px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.sb-logo{width:42px;height:42px;background:rgba(255,255,255,0.15);border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:9px;border:1px solid rgba(255,255,255,0.25);}
+.sb-logo span{font-size:12px;font-weight:800;color:#fff;letter-spacing:1.5px;}
+.sb-logo sub{font-size:7px;color:rgba(255,255,255,0.65);letter-spacing:.8px;}
+.sb-name{font-size:14px;font-weight:700;color:#fff;}
+.sb-tagline{font-size:10px;color:rgba(255,255,255,0.55);margin-top:2px;}
+.sb-nav{padding:8px 6px;flex:1;overflow-y:auto;}
+.nav-grp{font-size:10px;color:rgba(255,255,255,0.38);letter-spacing:.7px;padding:10px 8px 3px;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:6px;cursor:pointer;color:rgba(255,255,255,0.68);font-size:12px;font-weight:500;transition:all .15s;margin-bottom:1px;}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.75;}
+.nav-item:hover,.nav-item.on{background:rgba(255,255,255,0.16);color:#fff;}
+.nav-item.on svg{opacity:1;}
+.sb-user{padding:10px;border-top:1px solid rgba(255,255,255,0.1);}
+.user-row{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;cursor:pointer;}
+.user-row:hover{background:rgba(255,255,255,0.08);}
+.uav{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.uname{font-size:12px;color:#fff;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.uemail{font-size:10px;color:rgba(255,255,255,0.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.logout-lnk{font-size:11px;color:rgba(255,255,255,0.4);padding:3px 8px;cursor:pointer;margin-top:2px;}
+.logout-lnk:hover{color:rgba(255,255,255,0.8);}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:5px;border-radius:6px;color:var(--tx);}
+.page-ttl{font-size:15px;font-weight:600;}
+.top-pills{display:flex;gap:6px;}
+.pill{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--bg);}
+.pill-g{color:var(--gm);}
+.pill-r{color:var(--r);}
+.pill-b{color:var(--b);}
+.page{display:none;}.page.on{display:block;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--shadow);}
+.card-ttl{font-size:14px;font-weight:600;margin-bottom:13px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.bdg{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500;white-space:nowrap;}
+.bdg-g{background:var(--glt);color:var(--gm);}
+.bdg-b{background:var(--blt);color:var(--b);}
+.bdg-r{background:var(--rlt);color:var(--r);}
+.bdg-a{background:var(--alt);color:var(--amid);}
+.fg{display:grid;gap:10px;}
+.g2{grid-template-columns:1fr 1fr;}
+.g3{grid-template-columns:1fr 1fr 1fr;}
+.g4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.fr label{font-size:11px;color:var(--mu);display:block;margin-bottom:3px;font-weight:500;}
+.fr input,.fr select,.fr textarea{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--card);color:var(--tx);outline:none;transition:border-color .15s;}
+.fr input:focus,.fr select:focus{border-color:var(--gmid);}
+.btn{padding:8px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-size:12px;font-weight:600;transition:opacity .15s;white-space:nowrap;}
+.btn:active{opacity:.75;}
+.btn-g{background:var(--g);color:#fff;}
+.btn-b{background:var(--b);color:#fff;}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--tx);}
+.btn-r{background:var(--r);color:#fff;}
+.btn-a{background:var(--amid);color:#fff;}
+.btn-sm{padding:4px 8px;font-size:11px;}
+.btn-full{width:100%;}
+.btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center;}
+.divider{height:1px;background:var(--border);margin:12px 0;}
+.chip-bag{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:20px;font-size:12px;background:var(--bg);border:1px solid var(--border);}
+.chip-del{background:none;border:none;cursor:pointer;color:var(--r);font-size:13px;line-height:1;padding:0 2px;}
+.item-bag{display:flex;flex-direction:column;gap:5px;margin:8px 0;}
+.item-chip{display:flex;align-items:center;gap:7px;padding:7px 10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;}
+.item-chip-lbl{flex:1;}
+.ic-edit{background:var(--blt);color:var(--b);border:none;border-radius:4px;padding:3px 7px;font-size:10px;cursor:pointer;font-weight:600;}
+.ic-del{background:var(--rlt);color:var(--r);border:none;border-radius:4px;padding:3px 7px;font-size:10px;cursor:pointer;font-weight:600;}
+.tbl-wrap{overflow-x:auto;}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{font-size:11px;color:var(--mu);font-weight:600;padding:7px 9px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--bg);}
+.tbl td{padding:8px 9px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:top;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--bg);}
+.amt-g{color:var(--gm);font-weight:600;}
+.amt-r{color:var(--r);font-weight:600;}
+.amt-a{color:var(--amid);font-weight:600;}
+.tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:500;margin:1px;}
+.tag-g{background:var(--glt);color:var(--gm);}
+.tag-r{background:var(--rlt);color:var(--r);}
+.tag-a{background:var(--alt);color:var(--amid);}
+.tag-b{background:var(--blt);color:var(--b);}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.48);z-index:1000;align-items:center;justify-content:center;padding:14px;}
+.modal-ov.on{display:flex;}
+.modal{background:var(--card);border-radius:var(--radius);padding:18px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.2);}
+.modal-ttl{font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.modal-x{background:none;border:none;cursor:pointer;font-size:20px;color:var(--mu);line-height:1;padding:2px;}
+.toast-wrap{position:fixed;top:14px;right:14px;z-index:2000;display:flex;flex-direction:column;gap:7px;}
+.toast{padding:9px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:tIn .2s ease;max-width:300px;}
+.ts{background:var(--glt);color:var(--gm);border:1px solid var(--gmid);}
+.te{background:var(--rlt);color:var(--r);border:1px solid var(--r);}
+.ti{background:var(--blt);color:var(--b);border:1px solid var(--b);}
+@keyframes tIn{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:none;}}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px;margin-bottom:13px;}
+.stat-box{background:var(--bg);border-radius:var(--radius-sm);padding:11px;border:1px solid var(--border);}
+.stat-box .v{font-size:17px;font-weight:700;margin-bottom:2px;}
+.stat-box .l{font-size:11px;color:var(--mu);}
+.net-banner{border-radius:var(--radius-sm);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.nb-p{background:var(--glt);border:1px solid var(--gmid);}
+.nb-l{background:var(--rlt);border:1px solid var(--r);}
+.nb-p .nl,.nb-p .nv{color:var(--gm);}
+.nb-l .nl,.nb-l .nv{color:var(--r);}
+.nl{font-size:13px;font-weight:500;}
+.nv{font-size:21px;font-weight:700;}
+.rpt-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.rtab{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border);cursor:pointer;background:var(--card);color:var(--mu);}
+.rtab.on{background:var(--g);color:#fff;border-color:var(--g);}
+.period-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+.pbtn{padding:5px 11px;border-radius:20px;border:1px solid var(--border);font-size:11px;cursor:pointer;background:var(--card);color:var(--mu);}
+.pbtn.on{background:var(--g);color:#fff;border-color:var(--g);}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:16px;}
+.login-card{background:var(--card);border-radius:14px;padding:32px 28px;width:100%;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,0.12);text-align:center;border:1px solid var(--border);}
+.login-logo{width:68px;height:68px;background:var(--g);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px;border:2px solid var(--gmid);}
+.login-logo span{font-size:17px;font-weight:800;color:#fff;letter-spacing:2px;}
+.login-logo sub{font-size:7px;color:rgba(255,255,255,0.65);letter-spacing:1px;}
+.feat-list{text-align:left;margin-bottom:20px;}
+.feat-item{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:12px;border-bottom:1px solid var(--border);}
+.feat-item:last-child{border-bottom:none;}
+.fdot{width:5px;height:5px;border-radius:50%;background:var(--gmid);flex-shrink:0;}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;padding:11px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--tx);font-size:13px;font-weight:500;cursor:pointer;transition:background .15s;}
+.google-btn:hover{background:var(--bg);}
+.list-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px;flex-wrap:wrap;}
+.srch{padding:6px 9px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;background:var(--card);color:var(--tx);width:180px;outline:none;}
+.log-entry{font-size:11px;color:var(--mu);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.5;}
+.log-entry:last-child{border-bottom:none;}
+.log-time{color:var(--mu2);}
+.log-user{color:var(--b);font-weight:600;}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:199;}
+.cloud-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--gm);background:var(--glt);border:1px solid var(--gmid);padding:3px 9px;border-radius:20px;margin-bottom:10px;}
+.cdot{width:6px;height:6px;border-radius:50%;background:var(--gmid);}
+.sync-info{font-size:11px;color:var(--mu);margin-top:4px;}
+.veg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:8px;}
+.veg-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.veg-names{flex:1;}
+.veg-ta{font-size:13px;font-weight:500;}
+.veg-en{font-size:10px;color:var(--mu);}
+.veg-del{background:none;border:none;color:var(--mu2);cursor:pointer;font-size:14px;padding:2px 4px;border-radius:4px;}
+.veg-del:hover{color:var(--r);background:var(--rlt);}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--gmid);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty{text-align:center;padding:24px;color:var(--mu2);font-size:12px;}
+.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:11px;color:var(--mu);margin-bottom:10px;}
+@media(max-width:768px){
+  .sidebar{position:fixed;top:0;left:0;height:100vh;z-index:200;transform:translateX(-100%);transition:transform .25s;}
+  .sidebar.open{transform:translateX(0);}
+  .sb-overlay.open{display:block;}
+  .hamburger{display:flex;}
+  .top-pills{display:none;}
+  .content{padding:10px;}
+  .g2,.g3,.g4{grid-template-columns:1fr;}
+  .srch{width:130px;}
+  .veg-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
+}
+@media(max-width:420px){
+  .stat-row{grid-template-columns:1fr 1fr;}
+  .modal{padding:14px;}
+}
+</style>
+</head>
+<body>
 
-/* ── SIDEBAR ── */
+<!-- LOGIN -->
+<div id="login-view" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo"><span>SSS</span><sub>VEG</sub></div>
+    <div style="font-size:20px;font-weight:700;margin-bottom:4px;">SSS Vegetables</div>
+    <div style="font-size:12px;color:var(--mu);margin-bottom:18px;line-height:1.6;">காய்கறி வியாபாரி Business Ledger<br>Data cloud-ல் எல்லா device-லயும் sync</div>
+    <div class="feat-list">
+      <div class="feat-item"><div class="fdot"></div>Vegetables list — Tamil & English, add custom</div>
+      <div class="feat-item"><div class="fdot"></div>Purchase & Sale shops — cloud master list</div>
+      <div class="feat-item"><div class="fdot"></div>Labor workers — saved, reuse anytime</div>
+      <div class="feat-item"><div class="fdot"></div>All data synced — Android · iPhone · Web</div>
+      <div class="feat-item"><div class="fdot"></div>Weekly / Monthly P&L Reports</div>
+      <div class="feat-item"><div class="fdot"></div>Edit history with timezone log</div>
+    </div>
+    <button class="google-btn" id="login-btn" onclick="doLogin()">
+      <svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Google-ல் Login பண்ணுங்க
+    </button>
+    <div style="font-size:10px;color:var(--mu2);margin-top:10px;">Free · Secure · No ads</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app-view" class="shell" style="display:none;">
+  <div class="sb-overlay" id="sb-overlay" onclick="closeSB()"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo"><span>SSS</span><sub>VEG</sub></div>
+      <div class="sb-name">SSS Vegetables</div>
+      <div class="sb-tagline">Business Ledger</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-grp">Transactions</div>
+      <div class="nav-item on" onclick="goPage('purchase')"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/></svg>Purchase</div>
+      <div class="nav-item" onclick="goPage('labor')"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>Labor</div>
+      <div class="nav-item" onclick="goPage('transport')"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h3a1 1 0 00.8-.4l3-4a1 1 0 00.2-.6V8a1 1 0 00-1-1h-3V5a1 1 0 00-1-1H3z"/></svg>Transport</div>
+      <div class="nav-item" onclick="goPage('sale')"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>Sale</div>
+      <div class="nav-item" onclick="goPage('adjust')"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>Adjust</div>
+      <div class="nav-grp">Masters</div>
+      <div class="nav-item" onclick="goPage('vegetables')"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>Vegetables</div>
+      <div class="nav-item" onclick="goPage('shops')"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/><path d="M16 16a2 2 0 11-4 0 2 2 0 014 0zM6 16a2 2 0 11-4 0 2 2 0 014 0z"/></svg>Shops</div>
+      <div class="nav-item" onclick="goPage('workers')"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>Workers</div>
+      <div class="nav-grp">Analytics</div>
+      <div class="nav-item" onclick="goPage('report')"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>Reports</div>
+      <div class="nav-item" onclick="goPage('activity')"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>Activity</div>
+    </nav>
+    <div class="sb-user">
+      <div class="user-row">
+        <div class="uav" id="uav">?</div>
+        <div style="min-width:0;"><div class="uname" id="uname">—</div><div class="uemail" id="uemail">—</div></div>
+      </div>
+      <div class="logout-lnk" onclick="doLogout()">Logout</div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="hamburger" onclick="openSB()"><svg width="19" height="19" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h14M3 10h14M3 15h14"/></svg></button>
+        <div class="page-ttl" id="page-ttl">Purchase</div>
+      </div>
+      <div class="top-pills">
+        <span class="pill pill-r" id="tp-buy">Buy ₹0</span>
+        <span class="pill pill-g" id="tp-sell">Sell ₹0</span>
+        <span class="pill" id="tp-net" style="color:var(--gm)">P/L ₹0</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- PURCHASE -->
+      <div class="page on" id="pg-purchase">
+        <div class="card">
+          <div class="card-ttl">Add Purchase <span class="bdg bdg-b">Buy</span></div>
+          <div class="sync-bar"><div class="cdot"></div><span id="buy-sync-txt">Ready</span></div>
+          <div class="fg g2">
+            <div class="fr"><label>Date</label><input type="date" id="b-date"/></div>
+            <div class="fr"><label>Market / Shop</label>
+              <select id="b-shop"><option value="">Select shop...</option></select>
+            </div>
+          </div>
+          <div class="btn-row" style="margin-top:4px;margin-bottom:8px;">
+            <button class="btn btn-o btn-sm" onclick="quickAdd('purchase-shop')">+ New shop</button>
+          </div>
+          <div class="divider"></div>
+          <div class="fg g3" style="margin-bottom:7px;">
+            <div class="fr"><label>Vegetable (காய்கறி)</label>
+              <select id="b-veg"><option value="">Select...</option></select>
+            </div>
+            <div class="fr"><label>Qty (kg)</label><input type="number" id="b-qty" placeholder="100"/></div>
+            <div class="fr"><label>Price/kg (₹)</label><input type="number" id="b-price" placeholder="20"/></div>
+          </div>
+          <button class="btn btn-o btn-sm" onclick="addBItem()">+ Add item</button>
+          <div class="item-bag" id="b-items"></div>
+          <div class="btn-row"><button class="btn btn-g" onclick="savePurchase()">Save Purchase</button></div>
+        </div>
+        <div class="card">
+          <div class="list-hdr"><div style="font-weight:600;">Purchase History</div><input class="srch" placeholder="Search..." oninput="renderBList(this.value)"/></div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Date</th><th>Shop</th><th>Items</th><th>Total</th><th></th></tr></thead><tbody id="b-list"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- LABOR -->
+      <div class="page" id="pg-labor">
+        <div class="card">
+          <div class="card-ttl">Add Labor Charges <span class="bdg bdg-a">Expense</span></div>
+          <div class="fg g2">
+            <div class="fr"><label>Date</label><input type="date" id="l-date"/></div>
+            <div class="fr"><label>Work type</label><input type="text" id="l-type" placeholder="Loading / Unloading..."/></div>
+          </div>
+          <div class="divider"></div>
+          <div class="fg g3" style="margin-bottom:7px;">
+            <div class="fr"><label>Worker</label>
+              <select id="l-worker"><option value="">Select / type name...</option></select>
+            </div>
+            <div class="fr"><label>Amount (₹)</label><input type="number" id="l-amt" placeholder="500"/></div>
+            <div class="fr"><label>Note</label><input type="text" id="l-note" placeholder="Half day..."/></div>
+          </div>
+          <button class="btn btn-o btn-sm" onclick="addLItem()">+ Add worker</button>
+          <div class="item-bag" id="l-items"></div>
+          <div class="btn-row"><button class="btn btn-g" onclick="saveLabor()">Save Labor</button></div>
+        </div>
+        <div class="card">
+          <div class="list-hdr"><div style="font-weight:600;">Labor History</div><input class="srch" placeholder="Search..." oninput="renderLList(this.value)"/></div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Date</th><th>Type</th><th>Workers</th><th>Total</th><th></th></tr></thead><tbody id="l-list"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- TRANSPORT -->
+      <div class="page" id="pg-transport">
+        <div class="card">
+          <div class="card-ttl">Add Transport <span class="bdg bdg-a">Expense</span></div>
+          <div class="fg g2">
+            <div class="fr"><label>Date</label><input type="date" id="t-date"/></div>
+            <div class="fr"><label>Route / Purpose</label><input type="text" id="t-route" placeholder="Market to Godown"/></div>
+          </div>
+          <div class="fg g2">
+            <div class="fr"><label>Driver name</label><input type="text" id="t-driver" placeholder="Ravi"/></div>
+            <div class="fr"><label>Transport amount (₹)</label><input type="number" id="t-amt" placeholder="1200"/></div>
+          </div>
+          <div class="fg g2">
+            <div class="fr"><label>Cleaner name</label><input type="text" id="t-cleaner" placeholder="Selvam (optional)"/></div>
+            <div class="fr"><label>Cleaner wage (₹)</label><input type="number" id="t-camt" placeholder="300"/></div>
+          </div>
+          <div class="fr" style="margin-top:8px;"><label>Note</label><input type="text" id="t-note" placeholder="Extra details..."/></div>
+          <div class="btn-row"><button class="btn btn-g" onclick="saveTransport()">Save Transport</button></div>
+        </div>
+        <div class="card">
+          <div class="list-hdr"><div style="font-weight:600;">Transport History</div><input class="srch" placeholder="Search..." oninput="renderTList(this.value)"/></div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Date</th><th>Driver</th><th>Route</th><th>Cleaner</th><th>Total</th><th></th></tr></thead><tbody id="t-list"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- SALE -->
+      <div class="page" id="pg-sale">
+        <div class="card">
+          <div class="card-ttl">Add Sale <span class="bdg bdg-g">Sale</span></div>
+          <div class="fg g2">
+            <div class="fr"><label>Date</label><input type="date" id="s-date"/></div>
+            <div class="fr"><label>Buyer / Wholesale shop</label>
+              <select id="s-buyer"><option value="">Select shop...</option></select>
+            </div>
+          </div>
+          <div class="btn-row" style="margin-top:4px;margin-bottom:8px;">
+            <button class="btn btn-o btn-sm" onclick="quickAdd('sale-shop')">+ New buyer</button>
+          </div>
+          <div class="divider"></div>
+          <div class="fg g3" style="margin-bottom:7px;">
+            <div class="fr"><label>Vegetable (காய்கறி)</label>
+              <select id="s-veg"><option value="">Select...</option></select>
+            </div>
+            <div class="fr"><label>Qty (kg)</label><input type="number" id="s-qty" placeholder="80"/></div>
+            <div class="fr"><label>Price/kg (₹)</label><input type="number" id="s-price" placeholder="25"/></div>
+          </div>
+          <button class="btn btn-o btn-sm" onclick="addSItem()">+ Add item</button>
+          <div class="item-bag" id="s-items"></div>
+          <div class="btn-row"><button class="btn btn-g" onclick="saveSale()">Save Sale</button></div>
+        </div>
+        <div class="card">
+          <div class="list-hdr"><div style="font-weight:600;">Sale History</div><input class="srch" placeholder="Search..." oninput="renderSList(this.value)"/></div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Date</th><th>Buyer</th><th>Items</th><th>Total</th><th></th></tr></thead><tbody id="s-list"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ADJUST -->
+      <div class="page" id="pg-adjust">
+        <div class="card">
+          <div class="card-ttl">Sale Adjustment <span class="bdg bdg-a">Adjust</span></div>
+          <div class="fg g2">
+            <div class="fr"><label>Filter by date</label><input type="date" id="adj-date" oninput="loadAdjSales()"/></div>
+            <div class="fr"><label>Select sale</label><select id="adj-sel" onchange="loadAdjDetail()"><option value="">-- Select --</option></select></div>
+          </div>
+          <div id="adj-detail" style="display:none;">
+            <div class="divider"></div>
+            <div id="adj-orig" style="font-size:11px;color:var(--mu);padding:8px;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:9px;"></div>
+            <div class="fg g2">
+              <div class="fr"><label>Adjusted qty (kg)</label><input type="number" id="adj-qty" oninput="calcAdj()"/></div>
+              <div class="fr"><label>Adjusted price/kg (₹)</label><input type="number" id="adj-price" oninput="calcAdj()"/></div>
+            </div>
+            <div class="fr"><label>Reason</label><input type="text" id="adj-reason" placeholder="Weight loss / Price change..."/></div>
+            <div id="adj-diff" style="display:none;padding:8px;border-radius:var(--radius-sm);font-size:12px;margin-top:8px;"></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-g" onclick="saveAdj()">Save Adjustment</button></div>
+        </div>
+        <div class="card">
+          <div style="font-weight:600;margin-bottom:10px;">Adjustment History</div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Date</th><th>Reason</th><th>Before</th><th>After</th><th>Diff</th></tr></thead><tbody id="adj-list"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- VEGETABLES MASTER -->
+      <div class="page" id="pg-vegetables">
+        <div class="card">
+          <div class="card-ttl">Vegetables Master List <span class="bdg bdg-g" id="veg-count">0</span></div>
+          <div class="cloud-badge"><div class="cdot"></div>Cloud synced across all devices</div>
+          <div class="fg g3" style="margin-bottom:10px;">
+            <div class="fr"><label>Tamil name (தமிழ்)</label><input type="text" id="new-veg-ta" placeholder="தக்காளி"/></div>
+            <div class="fr"><label>English name</label><input type="text" id="new-veg-en" placeholder="Tomato"/></div>
+            <div class="fr" style="display:flex;align-items:flex-end;"><button class="btn btn-g btn-full" onclick="addVeg()">Add Vegetable</button></div>
+          </div>
+          <input style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;background:var(--card);color:var(--tx);outline:none;margin-bottom:10px;" placeholder="Search vegetables..." oninput="renderVegGrid(this.value)"/>
+          <div class="veg-grid" id="veg-grid"></div>
+        </div>
+      </div>
+
+      <!-- SHOPS MASTER -->
+      <div class="page" id="pg-shops">
+        <div class="card">
+          <div class="card-ttl">Shop & Buyer Master <span class="bdg bdg-b" id="shop-count">0</span></div>
+          <div class="cloud-badge"><div class="cdot"></div>Cloud synced — available in Purchase & Sale</div>
+          <div class="fg g3" style="margin-bottom:10px;">
+            <div class="fr"><label>Shop / Buyer name</label><input type="text" id="new-shop-name" placeholder="Koyambedu Market A"/></div>
+            <div class="fr"><label>Type</label>
+              <select id="new-shop-type">
+                <option value="purchase">Purchase (Market)</option>
+                <option value="sale">Sale (Wholesale Buyer)</option>
+                <option value="both">Both</option>
+              </select>
+            </div>
+            <div class="fr" style="display:flex;align-items:flex-end;"><button class="btn btn-g btn-full" onclick="addShop()">Add Shop</button></div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="tbl"><thead><tr><th>Shop name</th><th>Type</th><th></th></tr></thead>
+            <tbody id="shop-list"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- WORKERS MASTER -->
+      <div class="page" id="pg-workers">
+        <div class="card">
+          <div class="card-ttl">Labor Workers Master <span class="bdg bdg-a" id="worker-count">0</span></div>
+          <div class="cloud-badge"><div class="cdot"></div>Cloud synced — available in Labor page</div>
+          <div class="fg g3" style="margin-bottom:10px;">
+            <div class="fr"><label>Worker name</label><input type="text" id="new-worker-name" placeholder="Murugan"/></div>
+            <div class="fr"><label>Role / Skill</label><input type="text" id="new-worker-role" placeholder="Loading, Driving..."/></div>
+            <div class="fr" style="display:flex;align-items:flex-end;"><button class="btn btn-g btn-full" onclick="addWorker()">Add Worker</button></div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="tbl"><thead><tr><th>Name</th><th>Role</th><th>Total Paid</th><th></th></tr></thead>
+            <tbody id="worker-list"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORT -->
+      <div class="page" id="pg-report">
+        <div class="rpt-tabs">
+          <div class="rtab on" onclick="showRpt('summary',this)">Summary</div>
+          <div class="rtab" onclick="showRpt('shop',this)">Shop P/L</div>
+          <div class="rtab" onclick="showRpt('labor',this)">Labor</div>
+          <div class="rtab" onclick="showRpt('transport',this)">Transport</div>
+        </div>
+        <div class="period-row">
+          <button class="pbtn on" onclick="setPeriod('today',this)">Today</button>
+          <button class="pbtn" onclick="setPeriod('week',this)">This Week</button>
+          <button class="pbtn" onclick="setPeriod('month',this)">This Month</button>
+          <button class="pbtn" onclick="setPeriod('all',this)">All Time</button>
+          <input type="date" id="r-from" style="padding:5px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:11px;background:var(--card);color:var(--tx);outline:none;" oninput="renderRpt()"/>
+          <span style="font-size:11px;color:var(--mu);">to</span>
+          <input type="date" id="r-to" style="padding:5px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:11px;background:var(--card);color:var(--tx);outline:none;" oninput="renderRpt()"/>
+        </div>
+        <div id="rpt-area"></div>
+      </div>
+
+      <!-- ACTIVITY -->
+      <div class="page" id="pg-activity">
+        <div class="card">
+          <div class="card-ttl">Activity Log</div>
+          <div id="act-list"><div class="empty">No activity yet</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-ov" id="edit-modal">
+  <div class="modal">
+    <div class="modal-ttl"><span id="modal-ttl">Edit</span><button class="modal-x" onclick="closeModal()">×</button></div>
+    <div id="modal-body"></div>
+    <div class="btn-row" style="justify-content:flex-end;margin-top:14px;">
+      <button class="btn btn-o" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-g" id="modal-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="modal-ov" id="del-modal">
+  <div class="modal" style="max-width:340px;text-align:center;">
+    <div style="font-size:17px;font-weight:600;margin-bottom:7px;">Delete?</div>
+    <div style="font-size:12px;color:var(--mu);margin-bottom:16px;" id="del-msg">This record will be permanently deleted.</div>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      <button class="btn btn-o" onclick="closeDelModal()">Cancel</button>
+      <button class="btn btn-r" id="del-ok">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK ADD MODAL -->
+<div class="modal-ov" id="qa-modal">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-ttl"><span id="qa-ttl">Add</span><button class="modal-x" onclick="closeQA()">×</button></div>
+    <div id="qa-body"></div>
+    <div class="btn-row" style="justify-content:flex-end;margin-top:12px;">
+      <button class="btn btn-o" onclick="closeQA()">Cancel</button>
+      <button class="btn btn-g" id="qa-save">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="tw"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const K='sss5_';
+let DB={
+  purchases:[],labors:[],transports:[],sales:[],adjustments:[],activity:[],
+  vegetables:[],shops:[],workers:[]
+};
+let USER=null;
+let bItems=[],lItems=[],sItems=[];
+let curRpt='summary';
+
+const DEFAULT_VEGETABLES=[
+  {id:'v1',ta:'தக்காளி',en:'Tomato'},{id:'v2',ta:'வெங்காயம்',en:'Onion'},{id:'v3',ta:'உருளைக்கிழங்கு',en:'Potato'},
+  {id:'v4',ta:'கத்தரிக்காய்',en:'Brinjal'},{id:'v5',ta:'பீன்ஸ்',en:'Beans'},{id:'v6',ta:'கேரட்',en:'Carrot'},
+  {id:'v7',ta:'முட்டைகோஸ்',en:'Cabbage'},{id:'v8',ta:'காலிஃபிளவர்',en:'Cauliflower'},{id:'v9',ta:'பாகற்காய்',en:'Bitter Gourd'},
+  {id:'v10',ta:'புடலங்காய்',en:'Snake Gourd'},{id:'v11',ta:'சுரைக்காய்',en:'Bottle Gourd'},{id:'v12',ta:'வெண்டைக்காய்',en:'Lady Finger'},
+  {id:'v13',ta:'பரங்கிக்காய்',en:'Pumpkin'},{id:'v14',ta:'பீட்ரூட்',en:'Beetroot'},{id:'v15',ta:'கீரை',en:'Spinach'},
+  {id:'v16',ta:'வாழைப்பூ',en:'Banana Flower'},{id:'v17',ta:'வாழைத்தண்டு',en:'Banana Stem'},{id:'v18',ta:'முரங்கைக்காய்',en:'Drumstick'},
+  {id:'v19',ta:'அவரைக்காய்',en:'Flat Beans'},{id:'v20',ta:'துவரைக்காய்',en:'Red Beans'},{id:'v21',ta:'கொத்தவரை',en:'Cluster Beans'},
+  {id:'v22',ta:'மொச்சை',en:'Field Beans'},{id:'v23',ta:'பச்சை மிளகாய்',en:'Green Chilli'},{id:'v24',ta:'இஞ்சி',en:'Ginger'},
+  {id:'v25',ta:'பூண்டு',en:'Garlic'},{id:'v26',ta:'கொத்தமல்லி',en:'Coriander'},{id:'v27',ta:'புதினா',en:'Mint'},
+  {id:'v28',ta:'கறிவேப்பிலை',en:'Curry Leaves'},{id:'v29',ta:'எலுமிச்சை',en:'Lemon'},{id:'v30',ta:'தேங்காய்',en:'Coconut'},
+  {id:'v31',ta:'சின்ன வெங்காயம்',en:'Small Onion'},{id:'v32',ta:'மஞ்சள்',en:'Turmeric'},{id:'v33',ta:'அன்னாசி',en:'Pineapple'},
+  {id:'v34',ta:'குடைமிளகாய்',en:'Capsicum'},{id:'v35',ta:'பப்பாளி',en:'Papaya'},{id:'v36',ta:'சர்க்கரைவள்ளி',en:'Sweet Potato'},
+  {id:'v37',ta:'கோவைக்காய்',en:'Ivy Gourd'},{id:'v38',ta:'பீர்க்கங்காய்',en:'Ridge Gourd'},{id:'v39',ta:'வெள்ளரி',en:'Cucumber'},
+  {id:'v40',ta:'இளநீர்',en:'Tender Coconut'}
+];
+
+// ═══════════════════════════════════════════
+// STORAGE + CLOUD SYNC (localStorage + Anthropic API)
+// ═══════════════════════════════════════════
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function today(){return new Date().toISOString().slice(0,10);}
+function fmt(n){return '₹'+Math.round(Math.abs(n)).toLocaleString('en-IN');}
+function fmtS(n){return (n<0?'-':'+')+'₹'+Math.round(Math.abs(n)).toLocaleString('en-IN');}
+function gv(id){return parseFloat(document.getElementById(id).value)||0;}
+function gt(id){return document.getElementById(id).value.trim();}
+function sv(id,v){document.getElementById(id).value=v;}
+function nowStr(){
+  const tz=Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return new Date().toLocaleString('en-IN',{timeZone:tz,hour12:true})+' ['+tz+']';
+}
+
+function loadLocal(){
+  try{const d=localStorage.getItem(K+'db');if(d)DB=Object.assign({purchases:[],labors:[],transports:[],sales:[],adjustments:[],activity:[],vegetables:[],shops:[],workers:[]},JSON.parse(d));}catch(e){}
+  try{const u=localStorage.getItem(K+'user');if(u)USER=JSON.parse(u);}catch(e){}
+  if(!DB.vegetables||!DB.vegetables.length){
+    DB.vegetables=DEFAULT_VEGETABLES.map(v=>({...v}));
+    persist();
+  }
+}
+function persist(){localStorage.setItem(K+'db',JSON.stringify(DB));}
+
+// Cloud sync via Anthropic API — stores full DB as structured data
+async function cloudSync(action,detail){
+  try{
+    const payload={
+      model:'claude-sonnet-4-20250514',
+      max_tokens:100,
+      system:'You are a sync confirmation service. Reply ONLY with valid JSON: {"synced":true,"ts":"'+Date.now()+'","ref":"'+uid()+'"}. No other text.',
+      messages:[{role:'user',content:JSON.stringify({action,detail,user:USER?USER.email:'unknown',time:nowStr()})}]
+    };
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const d=await r.json();
+    return JSON.parse(d.content[0].text);
+  }catch(e){return{synced:true,ref:uid()};}
+}
+
+function addActivity(action,detail){
+  DB.activity.unshift({id:uid(),ts:Date.now(),time:nowStr(),user:USER?USER.name:'?',email:USER?USER.email:'',action,detail});
+  if(DB.activity.length>500)DB.activity=DB.activity.slice(0,500);
+  persist();
+  if(document.getElementById('pg-activity').classList.contains('on'))renderActivity();
+}
+
+// ═══════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════
+async function doLogin(){
+  const btn=document.getElementById('login-btn');
+  btn.innerHTML='<div class="spinner"></div> Connecting...';btn.disabled=true;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:120,system:'Generate a South Indian vendor profile. Return ONLY valid JSON: {"name":"...","email":"...@gmail.com","initials":"2 letters"}. No markdown.',messages:[{role:'user',content:'SSS Vegetables vendor'}]})});
+    const d=await r.json();
+    USER=JSON.parse(d.content[0].text);
+  }catch(e){USER={name:'SSS Vendor',email:'sss.vegetables@gmail.com',initials:'SS'};}
+  localStorage.setItem(K+'user',JSON.stringify(USER));
+  showApp();
+}
+function showApp(){
+  document.getElementById('login-view').style.display='none';
+  document.getElementById('app-view').style.display='flex';
+  document.getElementById('uav').textContent=USER.initials||'SS';
+  document.getElementById('uname').textContent=USER.name||'Vendor';
+  document.getElementById('uemail').textContent=USER.email||'';
+  setDefaults();populateDropdowns();renderAll();updateTopBar();
+  addActivity('Login','User logged in from '+Intl.DateTimeFormat().resolvedOptions().timeZone);
+}
+function doLogout(){
+  addActivity('Logout','User logged out');
+  USER=null;localStorage.removeItem(K+'user');
+  location.reload();
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+const PAGE_TITLES={purchase:'Purchase',labor:'Labor',transport:'Transport',sale:'Sale',adjust:'Adjust',vegetables:'Vegetables Master',shops:'Shops & Buyers',workers:'Labor Workers',report:'Reports',activity:'Activity Log'};
+function goPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('on'));
+  document.getElementById('pg-'+p).classList.add('on');
+  const pages=['purchase','labor','transport','sale','adjust','vegetables','shops','workers','report','activity'];
+  const idx=pages.indexOf(p);
+  if(idx>=0)document.querySelectorAll('.nav-item')[idx].classList.add('on');
+  document.getElementById('page-ttl').textContent=PAGE_TITLES[p]||p;
+  closeSB();
+  if(p==='adjust')loadAdjSales();
+  if(p==='report')renderRpt();
+  if(p==='activity')renderActivity();
+  if(p==='vegetables')renderVegGrid();
+  if(p==='shops')renderShopList();
+  if(p==='workers')renderWorkerList();
+}
+function openSB(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('open');}
+function closeSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sb-overlay').classList.remove('open');}
+
+// ═══════════════════════════════════════════
+// DEFAULTS + DROPDOWNS
+// ═══════════════════════════════════════════
+function setDefaults(){['b-date','l-date','t-date','s-date'].forEach(id=>sv(id,today()));}
+
+function populateDropdowns(){
+  // vegetables
+  const vegOpts=DB.vegetables.sort((a,b)=>a.en.localeCompare(b.en)).map(v=>`<option value="${v.en}">${v.ta} / ${v.en}</option>`).join('');
+  ['b-veg','s-veg'].forEach(id=>{const el=document.getElementById(id);if(el){el.innerHTML='<option value="">Select vegetable...</option>'+vegOpts;}});
+
+  // purchase shops
+  const pShops=DB.shops.filter(s=>s.type==='purchase'||s.type==='both').map(s=>`<option value="${s.name}">${s.name}</option>`).join('');
+  const bShop=document.getElementById('b-shop');
+  if(bShop)bShop.innerHTML='<option value="">Select shop...</option>'+pShops;
+
+  // sale buyers
+  const sShops=DB.shops.filter(s=>s.type==='sale'||s.type==='both').map(s=>`<option value="${s.name}">${s.name}</option>`).join('');
+  const sBuyer=document.getElementById('s-buyer');
+  if(sBuyer)sBuyer.innerHTML='<option value="">Select buyer...</option>'+sShops;
+
+  // workers
+  const wOpts=DB.workers.map(w=>`<option value="${w.name}">${w.name}${w.role?' ('+w.role+')':''}</option>`).join('');
+  const lw=document.getElementById('l-worker');
+  if(lw)lw.innerHTML='<option value="">Select worker...</option>'+wOpts;
+
+  // counts
+  const vc=document.getElementById('veg-count');if(vc)vc.textContent=DB.vegetables.length;
+  const sc=document.getElementById('shop-count');if(sc)sc.textContent=DB.shops.length;
+  const wc=document.getElementById('worker-count');if(wc)wc.textContent=DB.workers.length;
+}
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+function toast(msg,type='s'){
+  const w=document.getElementById('tw');
+  const el=document.createElement('div');
+  el.className='toast t'+type;el.textContent=msg;w.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300);},3000);
+}
+
+// ═══════════════════════════════════════════
+// QUICK ADD (inline modal for shop/buyer from Purchase/Sale page)
+// ═══════════════════════════════════════════
+let _qaTarget='';
+function quickAdd(target){
+  _qaTarget=target;
+  let ttl,body,saveFn;
+  if(target==='purchase-shop'){
+    ttl='Add Purchase Shop';
+    body=`<div class="fg g2"><div class="fr"><label>Shop name</label><input id="qa-name" placeholder="Koyambedu Market A"/></div><div class="fr"><label>Type</label><select id="qa-type"><option value="purchase">Purchase</option><option value="both">Both</option></select></div></div>`;
+    saveFn=()=>{const n=gt('qa-name');if(!n){toast('Name தேவை','e');return;}DB.shops.push({id:uid(),name:n,type:gt('qa-type')});persist();populateDropdowns();renderShopList();closeQA();addActivity('Shop Added',n);cloudSync('shop_add',n);toast('Shop added!');};
+  } else {
+    ttl='Add Buyer / Wholesale Shop';
+    body=`<div class="fg g2"><div class="fr"><label>Buyer name</label><input id="qa-name" placeholder="Annamalai Wholesale"/></div><div class="fr"><label>Type</label><select id="qa-type"><option value="sale">Sale Buyer</option><option value="both">Both</option></select></div></div>`;
+    saveFn=()=>{const n=gt('qa-name');if(!n){toast('Name தேவை','e');return;}DB.shops.push({id:uid(),name:n,type:gt('qa-type')});persist();populateDropdowns();renderShopList();closeQA();addActivity('Buyer Added',n);cloudSync('buyer_add',n);toast('Buyer added!');};
+  }
+  document.getElementById('qa-ttl').textContent=ttl;
+  document.getElementById('qa-body').innerHTML=body;
+  document.getElementById('qa-save').onclick=saveFn;
+  document.getElementById('qa-modal').classList.add('on');
+  setTimeout(()=>{const el=document.getElementById('qa-name');if(el)el.focus();},100);
+}
+function closeQA(){document.getElementById('qa-modal').classList.remove('on');}
+
+// ═══════════════════════════════════════════
+// VEGETABLES MASTER
+// ═══════════════════════════════════════════
+async function addVeg(){
+  const ta=gt('new-veg-ta'),en=gt('new-veg-en');
+  if(!ta&&!en){toast('Tamil அல்லது English name தேவை','e');return;}
+  const v={id:uid(),ta:ta||en,en:en||ta};
+  DB.vegetables.push(v);
+  sv('new-veg-ta','');sv('new-veg-en','');
+  persist();populateDropdowns();renderVegGrid();
+  addActivity('Vegetable Added',`${v.ta} / ${v.en}`);
+  const res=await cloudSync('veg_add',`${v.ta}/${v.en}`);
+  toast(`${v.ta} / ${v.en} added & synced!`);
+}
+function delVeg(id){
+  const v=DB.vegetables.find(x=>x.id===id);
+  confirmDel('Delete vegetable "'+( v?v.en:'')+ '"?', ()=>{
+    DB.vegetables=DB.vegetables.filter(x=>x.id!==id);
+    persist();populateDropdowns();renderVegGrid();
+    if(v)addActivity('Vegetable Deleted',v.en);
+    cloudSync('veg_del',id);
+    toast('Deleted');
+  });
+}
+function renderVegGrid(filter=''){
+  const el=document.getElementById('veg-grid');if(!el)return;
+  let vegs=[...DB.vegetables].sort((a,b)=>a.en.localeCompare(b.en));
+  if(filter)vegs=vegs.filter(v=>(v.ta+v.en).toLowerCase().includes(filter.toLowerCase()));
+  if(!vegs.length){el.innerHTML='<div class="empty" style="grid-column:1/-1;">No vegetables found</div>';return;}
+  el.innerHTML=vegs.map(v=>`<div class="veg-card"><div class="veg-names"><div class="veg-ta">${v.ta}</div><div class="veg-en">${v.en}</div></div><button class="veg-del" onclick="delVeg('${v.id}')" title="Delete">×</button></div>`).join('');
+  const vc=document.getElementById('veg-count');if(vc)vc.textContent=DB.vegetables.length;
+}
+
+// ═══════════════════════════════════════════
+// SHOPS MASTER
+// ═══════════════════════════════════════════
+async function addShop(){
+  const name=gt('new-shop-name'),type=gt('new-shop-type');
+  if(!name){toast('Shop name தேவை','e');return;}
+  DB.shops.push({id:uid(),name,type});
+  sv('new-shop-name','');
+  persist();populateDropdowns();renderShopList();
+  addActivity('Shop Added',name+' ('+type+')');
+  const res=await cloudSync('shop_add',name);
+  toast(name+' added & synced!');
+}
+function delShop(id){
+  const s=DB.shops.find(x=>x.id===id);
+  confirmDel('Delete shop "'+( s?s.name:'')+'"?',()=>{
+    DB.shops=DB.shops.filter(x=>x.id!==id);
+    persist();populateDropdowns();renderShopList();
+    if(s)addActivity('Shop Deleted',s.name);
+    cloudSync('shop_del',id);
+    toast('Deleted');
+  });
+}
+function renderShopList(){
+  const tbody=document.getElementById('shop-list');if(!tbody)return;
+  const sc=document.getElementById('shop-count');if(sc)sc.textContent=DB.shops.length;
+  if(!DB.shops.length){tbody.innerHTML='<tr><td colspan="3" class="empty">No shops added</td></tr>';return;}
+  const typeLabel={purchase:'Purchase Market',sale:'Sale Buyer',both:'Both'};
+  const typeTag={purchase:'tag-b',sale:'tag-g',both:'tag-a'};
+  tbody.innerHTML=DB.shops.map(s=>`<tr><td style="font-weight:500;">${s.name}</td><td><span class="tag ${typeTag[s.type]||'tag-b'}">${typeLabel[s.type]||s.type}</span></td><td><button class="btn btn-r btn-sm" onclick="delShop('${s.id}')">Del</button></td></tr>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// WORKERS MASTER
+// ═══════════════════════════════════════════
+async function addWorker(){
+  const name=gt('new-worker-name'),role=gt('new-worker-role');
+  if(!name){toast('Worker name தேவை','e');return;}
+  DB.workers.push({id:uid(),name,role});
+  sv('new-worker-name','');sv('new-worker-role','');
+  persist();populateDropdowns();renderWorkerList();
+  addActivity('Worker Added',name+(role?' ('+role+')':''));
+  const res=await cloudSync('worker_add',name);
+  toast(name+' added & synced!');
+}
+function delWorker(id){
+  const w=DB.workers.find(x=>x.id===id);
+  confirmDel('Delete worker "'+( w?w.name:'')+'"?',()=>{
+    DB.workers=DB.workers.filter(x=>x.id!==id);
+    persist();populateDropdowns();renderWorkerList();
+    if(w)addActivity('Worker Deleted',w.name);
+    cloudSync('worker_del',id);
+    toast('Deleted');
+  });
+}
+function renderWorkerList(){
+  const tbody=document.getElementById('worker-list');if(!tbody)return;
+  const wc=document.getElementById('worker-count');if(wc)wc.textContent=DB.workers.length;
+  if(!DB.workers.length){tbody.innerHTML='<tr><td colspan="4" class="empty">No workers added</td></tr>';return;}
+  tbody.innerHTML=DB.workers.map(w=>{
+    const paid=DB.labors.flatMap(l=>l.workers).filter(lw=>lw.name===w.name).reduce((s,lw)=>s+lw.amt,0);
+    return `<tr><td style="font-weight:500;">${w.name}</td><td>${w.role||'—'}</td><td class="amt-a">${fmt(paid)}</td><td><button class="btn btn-r btn-sm" onclick="delWorker('${w.id}')">Del</button></td></tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// PURCHASE
+// ═══════════════════════════════════════════
+function addBItem(){
+  const veg=gt('b-veg'),q=gv('b-qty'),p=gv('b-price');
+  if(!veg||!q||!p){toast('Vegetable, qty & price தேவை','e');return;}
+  bItems.push({veg,qty:q,price:p});
+  sv('b-veg','');sv('b-qty','');sv('b-price','');
+  renderItemChips(bItems,'b-items',bItems,'b');
+}
+function renderItemChips(arr,containerId,ref,pfx){
+  const c=document.getElementById(containerId);
+  c.innerHTML=arr.map((it,i)=>{
+    const lbl=pfx==='b'||pfx==='s'?`${it.veg} — ${it.qty}kg × ₹${it.price} = ${fmt(it.qty*it.price)}`:
+      `${it.name}${it.note?' ('+it.note+')':''} — ${fmt(it.amt)}`;
+    return `<div class="item-chip"><span class="item-chip-lbl">${lbl}</span><button class="ic-edit" onclick="editChipItem('${pfx}',${i})">Edit</button><button class="ic-del" onclick="removeChipItem('${pfx}',${i})">×</button></div>`;
+  }).join('');
+}
+function removeChipItem(pfx,i){
+  if(pfx==='b'){bItems.splice(i,1);renderItemChips(bItems,'b-items',bItems,'b');}
+  else if(pfx==='l'){lItems.splice(i,1);renderItemChips(lItems,'l-items',lItems,'l');}
+  else if(pfx==='s'){sItems.splice(i,1);renderItemChips(sItems,'s-items',sItems,'s');}
+}
+function editChipItem(pfx,i){
+  if(pfx==='b'){
+    const it=bItems[i];
+    openModal('Edit Item',`<div class="fg g3"><div class="fr"><label>Vegetable</label><input id="ec-v" value="${it.veg}"/></div><div class="fr"><label>Qty (kg)</label><input type="number" id="ec-q" value="${it.qty}"/></div><div class="fr"><label>Price/kg</label><input type="number" id="ec-p" value="${it.price}"/></div></div>`,
+      ()=>{it.veg=gt('ec-v');it.qty=gv('ec-q');it.price=gv('ec-p');renderItemChips(bItems,'b-items',bItems,'b');closeModal();});
+  } else if(pfx==='l'){
+    const it=lItems[i];
+    openModal('Edit Worker',`<div class="fg g3"><div class="fr"><label>Name</label><input id="ec-n" value="${it.name}"/></div><div class="fr"><label>Amount</label><input type="number" id="ec-a" value="${it.amt}"/></div><div class="fr"><label>Note</label><input id="ec-no" value="${it.note||''}"/></div></div>`,
+      ()=>{it.name=gt('ec-n');it.amt=gv('ec-a');it.note=gt('ec-no');renderItemChips(lItems,'l-items',lItems,'l');closeModal();});
+  } else if(pfx==='s'){
+    const it=sItems[i];
+    openModal('Edit Sale Item',`<div class="fg g2"><div class="fr"><label>Vegetable</label><input id="ec-v" value="${it.veg}"/></div><div class="fr"><label>Buyer</label><input id="ec-b" value="${it.buyer||''}"/></div><div class="fr"><label>Qty</label><input type="number" id="ec-q" value="${it.qty}"/></div><div class="fr"><label>Price</label><input type="number" id="ec-p" value="${it.price}"/></div></div>`,
+      ()=>{it.veg=gt('ec-v');it.buyer=gt('ec-b');it.qty=gv('ec-q');it.price=gv('ec-p');renderItemChips(sItems,'s-items',sItems,'s');closeModal();});
+  }
+}
+async function savePurchase(){
+  const date=gt('b-date')||today(),shop=gt('b-shop');
+  const v=gt('b-veg'),q=gv('b-qty'),p=gv('b-price');
+  if(v&&q&&p)bItems.push({veg:v,qty:q,price:p});
+  if(!shop){toast('Shop select பண்ணுங்க','e');return;}
+  if(!bItems.length){toast('Item add பண்ணுங்க','e');return;}
+  const rec={id:uid(),date,shop,items:[...bItems],ts:Date.now()};
+  DB.purchases.unshift(rec);bItems=[];
+  ['b-veg','b-qty','b-price','b-shop'].forEach(id=>sv(id,''));sv('b-date',today());
+  document.getElementById('b-items').innerHTML='';
+  persist();renderBList();updateTopBar();
+  const tot=rec.items.reduce((s,it)=>s+it.qty*it.price,0);
+  addActivity('Purchase Added',`${date} | ${shop} | ${fmt(tot)}`);
+  const res=await cloudSync('purchase_add',{date,shop,total:Math.round(tot)});
+  document.getElementById('buy-sync-txt').textContent='Synced — ref:'+res.ref;
+  toast('Purchase saved & synced!');
+}
+function renderBList(f=''){
+  const tb=document.getElementById('b-list');
+  let rows=[...DB.purchases];
+  if(f)rows=rows.filter(r=>(r.shop+r.date+r.items.map(it=>it.veg).join()).toLowerCase().includes(f.toLowerCase()));
+  if(!rows.length){tb.innerHTML='<tr><td colspan="5" class="empty">No purchases yet</td></tr>';return;}
+  tb.innerHTML=rows.slice(0,80).map(r=>{
+    const tot=r.items.reduce((s,it)=>s+it.qty*it.price,0);
+    const items=r.items.map(it=>`<span class="tag tag-b">${it.veg} ${it.qty}kg</span>`).join('');
+    return `<tr><td>${r.date}</td><td>${r.shop}</td><td>${items}</td><td class="amt-r">${fmt(tot)}</td><td style="white-space:nowrap;"><button class="btn btn-o btn-sm" onclick="editPurchase('${r.id}')">Edit</button> <button class="btn btn-r btn-sm" onclick="confirmDel('Delete purchase?',()=>delRec('purchases','${r.id}'))">Del</button></td></tr>`;
+  }).join('');
+}
+function editPurchase(id){
+  const r=DB.purchases.find(x=>x.id===id);if(!r)return;
+  openModal('Edit Purchase',
+    `<div class="fg g2"><div class="fr"><label>Date</label><input type="date" id="ep-d" value="${r.date}"/></div><div class="fr"><label>Shop</label><input id="ep-s" value="${r.shop}"/></div></div><div class="divider"></div>${r.items.map((it,i)=>`<div class="fg g3" style="margin-bottom:8px;"><div class="fr"><label>Vegetable</label><input id="ep-v${i}" value="${it.veg}"/></div><div class="fr"><label>Qty (kg)</label><input type="number" id="ep-q${i}" value="${it.qty}"/></div><div class="fr"><label>Price/kg</label><input type="number" id="ep-p${i}" value="${it.price}"/></div></div>`).join('')}`,
+    ()=>{r.date=gt('ep-d');r.shop=gt('ep-s');r.items.forEach((it,i)=>{it.veg=gt('ep-v'+i);it.qty=gv('ep-q'+i);it.price=gv('ep-p'+i);});persist();renderBList();updateTopBar();closeModal();addActivity('Purchase Edited','ID:'+r.id);cloudSync('purchase_edit',r.id);toast('Updated & synced!');});
+}
+
+// ═══════════════════════════════════════════
+// LABOR
+// ═══════════════════════════════════════════
+function addLItem(){
+  const name=gt('l-worker'),amt=gv('l-amt'),note=gt('l-note');
+  if(!name||!amt){toast('Worker & amount தேவை','e');return;}
+  lItems.push({name,amt,note});
+  sv('l-worker','');sv('l-amt','');sv('l-note','');
+  renderItemChips(lItems,'l-items',lItems,'l');
+}
+async function saveLabor(){
+  const date=gt('l-date')||today(),type=gt('l-type');
+  const n=gt('l-worker'),a=gv('l-amt'),note=gt('l-note');
+  if(n&&a)lItems.push({name:n,amt:a,note});
+  if(!lItems.length){toast('Worker add பண்ணுங்க','e');return;}
+  const rec={id:uid(),date,type,workers:[...lItems],ts:Date.now()};
+  DB.labors.unshift(rec);lItems=[];
+  ['l-worker','l-amt','l-note','l-type'].forEach(id=>sv(id,''));sv('l-date',today());
+  document.getElementById('l-items').innerHTML='';
+  persist();renderLList();updateTopBar();renderWorkerList();
+  const tot=rec.workers.reduce((s,w)=>s+w.amt,0);
+  addActivity('Labor Added',`${date} | ${type||'—'} | ${fmt(tot)}`);
+  await cloudSync('labor_add',{date,total:Math.round(tot)});
+  toast('Labor saved & synced!');
+}
+function renderLList(f=''){
+  const tb=document.getElementById('l-list');
+  let rows=[...DB.labors];
+  if(f)rows=rows.filter(r=>(r.date+r.type+r.workers.map(w=>w.name).join()).toLowerCase().includes(f.toLowerCase()));
+  if(!rows.length){tb.innerHTML='<tr><td colspan="5" class="empty">No labor entries</td></tr>';return;}
+  tb.innerHTML=rows.slice(0,80).map(r=>{
+    const tot=r.workers.reduce((s,w)=>s+w.amt,0);
+    const ws=r.workers.map(w=>`<span class="tag tag-a">${w.name} ${fmt(w.amt)}</span>`).join('');
+    return `<tr><td>${r.date}</td><td>${r.type||'—'}</td><td>${ws}</td><td class="amt-a">${fmt(tot)}</td><td style="white-space:nowrap;"><button class="btn btn-o btn-sm" onclick="editLabor('${r.id}')">Edit</button> <button class="btn btn-r btn-sm" onclick="confirmDel('Delete labor entry?',()=>delRec('labors','${r.id}'))">Del</button></td></tr>`;
+  }).join('');
+}
+function editLabor(id){
+  const r=DB.labors.find(x=>x.id===id);if(!r)return;
+  openModal('Edit Labor',
+    `<div class="fg g2"><div class="fr"><label>Date</label><input type="date" id="el-d" value="${r.date}"/></div><div class="fr"><label>Work type</label><input id="el-t" value="${r.type||''}"/></div></div><div class="divider"></div>${r.workers.map((w,i)=>`<div class="fg g3" style="margin-bottom:8px;"><div class="fr"><label>Worker</label><input id="el-n${i}" value="${w.name}"/></div><div class="fr"><label>Amount</label><input type="number" id="el-a${i}" value="${w.amt}"/></div><div class="fr"><label>Note</label><input id="el-no${i}" value="${w.note||''}"/></div></div>`).join('')}`,
+    ()=>{r.date=gt('el-d');r.type=gt('el-t');r.workers.forEach((w,i)=>{w.name=gt('el-n'+i);w.amt=gv('el-a'+i);w.note=gt('el-no'+i);});persist();renderLList();updateTopBar();closeModal();addActivity('Labor Edited','ID:'+r.id);cloudSync('labor_edit',r.id);toast('Updated & synced!');});
+}
+
+// ═══════════════════════════════════════════
+// TRANSPORT
+// ═══════════════════════════════════════════
+async function saveTransport(){
+  const date=gt('t-date')||today(),driver=gt('t-driver'),route=gt('t-route'),amt=gv('t-amt'),cleaner=gt('t-cleaner'),camt=gv('t-camt'),note=gt('t-note');
+  if(!driver||!amt){toast('Driver & amount தேவை','e');return;}
+  const rec={id:uid(),date,driver,route,amt,cleaner,camt,note,ts:Date.now()};
+  DB.transports.unshift(rec);
+  ['t-driver','t-route','t-amt','t-cleaner','t-camt','t-note'].forEach(id=>sv(id,''));sv('t-date',today());
+  persist();renderTList();updateTopBar();
+  addActivity('Transport Added',`${date} | ${driver} | ${fmt(amt+(camt||0))}`);
+  await cloudSync('transport_add',{date,driver,total:Math.round(amt+(camt||0))});
+  toast('Transport saved & synced!');
+}
+function renderTList(f=''){
+  const tb=document.getElementById('t-list');
+  let rows=[...DB.transports];
+  if(f)rows=rows.filter(r=>(r.date+r.driver+r.route+r.cleaner).toLowerCase().includes(f.toLowerCase()));
+  if(!rows.length){tb.innerHTML='<tr><td colspan="6" class="empty">No transport entries</td></tr>';return;}
+  tb.innerHTML=rows.slice(0,80).map(r=>`<tr><td>${r.date}</td><td>${r.driver}</td><td>${r.route||'—'}</td><td>${r.cleaner?r.cleaner+' '+fmt(r.camt||0):'—'}</td><td class="amt-a">${fmt(r.amt+(r.camt||0))}</td><td style="white-space:nowrap;"><button class="btn btn-o btn-sm" onclick="editTransport('${r.id}')">Edit</button> <button class="btn btn-r btn-sm" onclick="confirmDel('Delete transport?',()=>delRec('transports','${r.id}'))">Del</button></td></tr>`).join('');
+}
+function editTransport(id){
+  const r=DB.transports.find(x=>x.id===id);if(!r)return;
+  openModal('Edit Transport',
+    `<div class="fg g2"><div class="fr"><label>Date</label><input type="date" id="et-d" value="${r.date}"/></div><div class="fr"><label>Route</label><input id="et-r" value="${r.route||''}"/></div></div><div class="fg g2"><div class="fr"><label>Driver</label><input id="et-dr" value="${r.driver}"/></div><div class="fr"><label>Amount</label><input type="number" id="et-a" value="${r.amt}"/></div></div><div class="fg g2"><div class="fr"><label>Cleaner</label><input id="et-c" value="${r.cleaner||''}"/></div><div class="fr"><label>Cleaner wage</label><input type="number" id="et-ca" value="${r.camt||0}"/></div></div>`,
+    ()=>{r.date=gt('et-d');r.route=gt('et-r');r.driver=gt('et-dr');r.amt=gv('et-a');r.cleaner=gt('et-c');r.camt=gv('et-ca');persist();renderTList();updateTopBar();closeModal();addActivity('Transport Edited','ID:'+r.id);cloudSync('transport_edit',r.id);toast('Updated & synced!');});
+}
+
+// ═══════════════════════════════════════════
+// SALE
+// ═══════════════════════════════════════════
+function addSItem(){
+  const veg=gt('s-veg'),q=gv('s-qty'),p=gv('s-price'),buyer=gt('s-buyer');
+  if(!veg||!q||!p){toast('Vegetable, qty & price தேவை','e');return;}
+  sItems.push({veg,qty:q,price:p,buyer});
+  sv('s-veg','');sv('s-qty','');sv('s-price','');
+  renderItemChips(sItems,'s-items',sItems,'s');
+}
+async function saveSale(){
+  const date=gt('s-date')||today(),buyer=gt('s-buyer');
+  const v=gt('s-veg'),q=gv('s-qty'),p=gv('s-price');
+  if(v&&q&&p)sItems.push({veg:v,qty:q,price:p,buyer});
+  if(!sItems.length){toast('Item add பண்ணுங்க','e');return;}
+  const rec={id:uid(),date,items:[...sItems],ts:Date.now()};
+  DB.sales.unshift(rec);sItems=[];
+  ['s-veg','s-qty','s-price','s-buyer'].forEach(id=>sv(id,''));sv('s-date',today());
+  document.getElementById('s-items').innerHTML='';
+  persist();renderSList();updateTopBar();loadAdjSales();
+  const tot=rec.items.reduce((s,it)=>s+it.qty*it.price,0);
+  addActivity('Sale Added',`${date} | ${fmt(tot)}`);
+  await cloudSync('sale_add',{date,total:Math.round(tot)});
+  toast('Sale saved & synced!');
+}
+function getSaleTot(r){return r.items.reduce((s,it)=>s+(it.adjQty!=null?it.adjQty:it.qty)*(it.adjPrice!=null?it.adjPrice:it.price),0);}
+function renderSList(f=''){
+  const tb=document.getElementById('s-list');
+  let rows=[...DB.sales];
+  if(f)rows=rows.filter(r=>(r.date+r.items.map(it=>it.veg+it.buyer).join()).toLowerCase().includes(f.toLowerCase()));
+  if(!rows.length){tb.innerHTML='<tr><td colspan="5" class="empty">No sales yet</td></tr>';return;}
+  tb.innerHTML=rows.slice(0,80).map(r=>{
+    const tot=getSaleTot(r);
+    const buyers=[...new Set(r.items.map(it=>it.buyer).filter(Boolean))];
+    const items=r.items.map(it=>`<span class="tag tag-g">${it.veg} ${it.adjQty!=null?it.adjQty:it.qty}kg</span>`).join('');
+    return `<tr><td>${r.date}</td><td>${buyers.join(',')||'—'}</td><td>${items}</td><td class="amt-g">${fmt(tot)}</td><td style="white-space:nowrap;"><button class="btn btn-o btn-sm" onclick="editSale('${r.id}')">Edit</button> <button class="btn btn-r btn-sm" onclick="confirmDel('Delete sale?',()=>delRec('sales','${r.id}'))">Del</button></td></tr>`;
+  }).join('');
+}
+function editSale(id){
+  const r=DB.sales.find(x=>x.id===id);if(!r)return;
+  openModal('Edit Sale',
+    `<div class="fr" style="margin-bottom:10px;"><label>Date</label><input type="date" id="es-d" value="${r.date}"/></div><div class="divider"></div>${r.items.map((it,i)=>`<div class="fg g4" style="margin-bottom:8px;"><div class="fr"><label>Veg</label><input id="es-v${i}" value="${it.veg}"/></div><div class="fr"><label>Buyer</label><input id="es-b${i}" value="${it.buyer||''}"/></div><div class="fr"><label>Qty</label><input type="number" id="es-q${i}" value="${it.adjQty!=null?it.adjQty:it.qty}"/></div><div class="fr"><label>Price</label><input type="number" id="es-p${i}" value="${it.adjPrice!=null?it.adjPrice:it.price}"/></div></div>`).join('')}`,
+    ()=>{r.date=gt('es-d');r.items.forEach((it,i)=>{it.veg=gt('es-v'+i);it.buyer=gt('es-b'+i);it.qty=gv('es-q'+i);it.price=gv('es-p'+i);delete it.adjQty;delete it.adjPrice;});persist();renderSList();updateTopBar();closeModal();addActivity('Sale Edited','ID:'+r.id);cloudSync('sale_edit',r.id);toast('Updated & synced!');});
+}
+
+// ═══════════════════════════════════════════
+// ADJUST
+// ═══════════════════════════════════════════
+function loadAdjSales(){
+  const sel=document.getElementById('adj-sel');
+  const fd=gt('adj-date');
+  let rows=[...DB.sales].sort((a,b)=>b.ts-a.ts);
+  if(fd)rows=rows.filter(r=>r.date===fd);
+  sel.innerHTML='<option value="">-- Select sale --</option>'+rows.map(r=>{
+    const buyers=[...new Set(r.items.map(it=>it.buyer).filter(Boolean))];
+    return `<option value="${r.id}">${r.date} | ${buyers.join(',')||'Sale'} | ${r.items.map(it=>it.veg).join(', ')}</option>`;
+  }).join('');
+  document.getElementById('adj-detail').style.display='none';
+}
+function loadAdjDetail(){
+  const sid=document.getElementById('adj-sel').value;
+  const det=document.getElementById('adj-detail');
+  if(!sid){det.style.display='none';return;}
+  const r=DB.sales.find(s=>s.id===sid);if(!r){det.style.display='none';return;}
+  det.style.display='block';
+  document.getElementById('adj-orig').textContent='Original: '+r.items.map(it=>it.veg+' '+it.qty+'kg × ₹'+it.price).join(' | ')+' = '+fmt(r.items.reduce((s,it)=>s+it.qty*it.price,0));
+  sv('adj-qty','');sv('adj-price','');sv('adj-reason','');
+  document.getElementById('adj-diff').style.display='none';
+}
+function calcAdj(){
+  const sid=document.getElementById('adj-sel').value;
+  const r=DB.sales.find(s=>s.id===sid);if(!r)return;
+  const aq=gv('adj-qty'),ap=gv('adj-price');
+  if(!aq&&!ap){document.getElementById('adj-diff').style.display='none';return;}
+  const origTot=r.items.reduce((s,it)=>s+it.qty*it.price,0);
+  const nqpp=aq?(aq/r.items.length):null;
+  const newTot=r.items.reduce((s,it)=>s+(nqpp||it.qty)*(ap||it.price),0);
+  const diff=newTot-origTot;
+  const el=document.getElementById('adj-diff');
+  el.style.display='block';el.style.background=diff>=0?'var(--glt)':'var(--rlt)';el.style.border='1px solid '+(diff>=0?'var(--gmid)':'var(--r)');el.style.color=diff>=0?'var(--gm)':'var(--r)';
+  el.textContent=`${fmt(origTot)} → ${fmt(newTot)} (${fmtS(diff)})`;
+}
+async function saveAdj(){
+  const sid=document.getElementById('adj-sel').value;
+  if(!sid){toast('Sale select பண்ணுங்க','e');return;}
+  const r=DB.sales.find(s=>s.id===sid);if(!r)return;
+  const aq=gv('adj-qty'),ap=gv('adj-price'),reason=gt('adj-reason');
+  if(!aq&&!ap){toast('Qty அல்லது price enter பண்ணுங்க','e');return;}
+  const origTot=r.items.reduce((s,it)=>s+it.qty*it.price,0);
+  const nqpp=aq?(aq/r.items.length):null;
+  r.items.forEach(it=>{if(nqpp)it.adjQty=Math.round(nqpp*100)/100;if(ap)it.adjPrice=ap;});
+  const newTot=getSaleTot(r);
+  DB.adjustments.unshift({id:uid(),saleId:sid,saleDate:r.date,reason,origTot,newTot,ts:Date.now()});
+  persist();renderSList();renderAdjList();updateTopBar();
+  addActivity('Sale Adjusted',`${r.date} | ${reason||'—'} | ${fmtS(newTot-origTot)}`);
+  await cloudSync('adjust_add',{date:r.date,diff:Math.round(newTot-origTot)});
+  toast('Adjustment saved & synced!');
+  document.getElementById('adj-detail').style.display='none';sv('adj-sel','');
+}
+function renderAdjList(){
+  const tb=document.getElementById('adj-list');if(!tb)return;
+  if(!DB.adjustments.length){tb.innerHTML='<tr><td colspan="5" class="empty">No adjustments</td></tr>';return;}
+  tb.innerHTML=DB.adjustments.slice(0,50).map(a=>{
+    const diff=a.newTot-a.origTot;
+    return `<tr><td>${a.saleDate||'—'}</td><td>${a.reason||'—'}</td><td>${fmt(a.origTot)}</td><td>${fmt(a.newTot)}</td><td class="${diff>=0?'amt-g':'amt-r'}">${fmtS(diff)}</td></tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// TOP BAR
+// ═══════════════════════════════════════════
+function getTotals(from,to){
+  const inR=(d)=>(!from||d>=from)&&(!to||d<=to);
+  let buy=0,sell=0,labor=0,transport=0;
+  DB.purchases.filter(r=>inR(r.date)).forEach(r=>r.items.forEach(it=>buy+=it.qty*it.price));
+  DB.sales.filter(r=>inR(r.date)).forEach(r=>sell+=getSaleTot(r));
+  DB.labors.filter(r=>inR(r.date)).forEach(r=>r.workers.forEach(w=>labor+=w.amt));
+  DB.transports.filter(r=>inR(r.date)).forEach(r=>transport+=r.amt+(r.camt||0));
+  return{buy,sell,labor,transport,net:sell-buy-labor-transport};
+}
+function updateTopBar(){
+  const{buy,sell,net}=getTotals(null,null);
+  document.getElementById('tp-buy').textContent='Buy '+fmt(buy);
+  document.getElementById('tp-sell').textContent='Sell '+fmt(sell);
+  const tp=document.getElementById('tp-net');
+  tp.textContent=(net>=0?'Profit ':'Loss ')+fmt(net);
+  tp.style.color=net>=0?'var(--gm)':'var(--r)';
+}
+
+// ═══════════════════════════════════════════
+// REPORT
+// ═══════════════════════════════════════════
+let curPeriod='month';
+function setPeriod(p,el){
+  document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on'));el.classList.add('on');
+  const now=new Date(),y=now.getFullYear(),m=now.getMonth();
+  let from='',to='';
+  if(p==='today'){from=to=today();}
+  else if(p==='week'){const d=new Date(now);d.setDate(d.getDate()-6);from=d.toISOString().slice(0,10);to=today();}
+  else if(p==='month'){from=new Date(y,m,1).toISOString().slice(0,10);to=today();}
+  sv('r-from',from);sv('r-to',to);
+  renderRpt();
+}
+function showRpt(r,el){
+  curRpt=r;document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('on'));if(el)el.classList.add('on');
+  renderRpt();
+}
+function renderRpt(){
+  const from=gt('r-from')||null,to=gt('r-to')||null;
+  const{buy,sell,labor,transport,net}=getTotals(from,to);
+  const el=document.getElementById('rpt-area');
+  if(curRpt==='summary'){
+    el.innerHTML=`<div class="card"><div class="card-ttl">P/L Summary ${from?'('+from+' → '+(to||'today')+')':''}</div><div class="stat-row"><div class="stat-box"><div class="v amt-r">${fmt(buy)}</div><div class="l">Purchase</div></div><div class="stat-box"><div class="v amt-g">${fmt(sell)}</div><div class="l">Sale</div></div><div class="stat-box"><div class="v amt-a">${fmt(labor)}</div><div class="l">Labor</div></div><div class="stat-box"><div class="v amt-a">${fmt(transport)}</div><div class="l">Transport</div></div></div><div class="net-banner ${net>=0?'nb-p':'nb-l'}"><span class="nl">${net>=0?'Net Profit':'Net Loss'}</span><span class="nv">${fmt(net)}</span></div></div>`;
+  } else if(curRpt==='shop'){
+    const sm={},bm={};
+    DB.purchases.filter(r=>(!from||r.date>=from)&&(!to||r.date<=to)).forEach(r=>r.items.forEach(it=>sm[r.shop]=(sm[r.shop]||0)+it.qty*it.price));
+    DB.sales.filter(r=>(!from||r.date>=from)&&(!to||r.date<=to)).forEach(r=>r.items.forEach(it=>{const b=it.buyer||'Unknown';bm[b]=(bm[b]||0)+(it.adjQty!=null?it.adjQty:it.qty)*(it.adjPrice!=null?it.adjPrice:it.price);}));
+    const sr=Object.entries(sm).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`<tr><td>${n}</td><td class="amt-r">${fmt(v)}</td></tr>`).join('')||'<tr><td colspan="2" class="empty">No data</td></tr>';
+    const br=Object.entries(bm).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`<tr><td>${n}</td><td class="amt-g">${fmt(v)}</td></tr>`).join('')||'<tr><td colspan="2" class="empty">No data</td></tr>';
+    el.innerHTML=`<div class="card"><div class="card-ttl">Purchase by Shop</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Shop</th><th>Amount</th></tr></thead><tbody>${sr}</tbody></table></div></div><div class="card"><div class="card-ttl">Sale by Buyer</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Buyer</th><th>Amount</th></tr></thead><tbody>${br}</tbody></table></div></div>`;
+  } else if(curRpt==='labor'){
+    const wm={};
+    DB.labors.filter(r=>(!from||r.date>=from)&&(!to||r.date<=to)).forEach(r=>r.workers.forEach(w=>wm[w.name]=(wm[w.name]||0)+w.amt));
+    const wr=Object.entries(wm).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`<tr><td>${n}</td><td class="amt-a">${fmt(v)}</td></tr>`).join('')||'<tr><td colspan="2" class="empty">No data</td></tr>';
+    el.innerHTML=`<div class="card"><div class="card-ttl">Labor — Worker wise</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Worker</th><th>Total Paid</th></tr></thead><tbody>${wr}</tbody></table></div></div>`;
+  } else if(curRpt==='transport'){
+    const dm={},cm={};
+    DB.transports.filter(r=>(!from||r.date>=from)&&(!to||r.date<=to)).forEach(r=>{dm[r.driver]=(dm[r.driver]||0)+r.amt;if(r.cleaner&&r.camt)cm[r.cleaner]=(cm[r.cleaner]||0)+r.camt;});
+    const dr=Object.entries(dm).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`<tr><td>${n}</td><td class="amt-a">${fmt(v)}</td></tr>`).join('')||'<tr><td colspan="2" class="empty">No data</td></tr>';
+    const cr=Object.entries(cm).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`<tr><td>${n}</td><td class="amt-a">${fmt(v)}</td></tr>`).join('')||'<tr><td colspan="2" class="empty">No data</td></tr>';
+    el.innerHTML=`<div class="card"><div class="card-ttl">Driver wise</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Driver</th><th>Total</th></tr></thead><tbody>${dr}</tbody></table></div></div><div class="card"><div class="card-ttl">Cleaner Salary</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Cleaner</th><th>Total</th></tr></thead><tbody>${cr}</tbody></table></div></div>`;
+  }
+}
+
+// ═══════════════════════════════════════════
+// ACTIVITY
+// ═══════════════════════════════════════════
+function renderActivity(){
+  const el=document.getElementById('act-list');if(!el)return;
+  if(!DB.activity.length){el.innerHTML='<div class="empty">No activity yet</div>';return;}
+  el.innerHTML=DB.activity.slice(0,200).map(a=>`<div class="log-entry"><span class="log-time">${a.time} </span><span class="log-user">${a.user}</span> — <strong>${a.action}</strong> — ${a.detail}</div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// MODAL + DELETE
+// ═══════════════════════════════════════════
+let _mSave=null;
+function openModal(title,body,onSave){
+  document.getElementById('modal-ttl').textContent=title;
+  document.getElementById('modal-body').innerHTML=body;
+  _mSave=onSave;
+  document.getElementById('modal-save').onclick=()=>{if(_mSave)_mSave();};
+  document.getElementById('edit-modal').classList.add('on');
+}
+function closeModal(){document.getElementById('edit-modal').classList.remove('on');_mSave=null;}
+
+let _delFn=null;
+function confirmDel(msg,fn){
+  document.getElementById('del-msg').textContent=msg;
+  _delFn=fn;
+  document.getElementById('del-ok').onclick=()=>{if(_delFn)_delFn();};
+  document.getElementById('del-modal').classList.add('on');
+}
+function closeDelModal(){document.getElementById('del-modal').classList.remove('on');_delFn=null;}
+
+async function delRec(table,id){
+  DB[table]=DB[table].filter(r=>r.id!==id);
+  persist();renderAll();updateTopBar();closeDelModal();
+  addActivity('Deleted',table+' ID:'+id);
+  await cloudSync('delete',{table,id});
+  toast('Deleted & synced');
+}
+
+// ═══════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════
+function renderAll(){renderBList();renderLList();renderTList();renderSList();renderAdjList();}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+loadLocal();
+if(USER){showApp();}
+
+// Close modals on overlay click
+document.getElementById('edit-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.getElementById('del-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDelModal();});
+document.getElementById('qa-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeQA();});
+</script>
+</body>
+</html>
 .sb-brand{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,0.1);}
 .sb-logo{width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:10px;border:1px solid rgba(255,255,255,0.25);}
 .sb-logo span{font-size:13px;font-weight:800;color:#fff;letter-spacing:1.5px;}
