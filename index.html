@@ -667,8 +667,18 @@ function useLocalOnly() {
 // ═══════════════════════════════
 // LOGIN
 // ═══════════════════════════════
+// function doLogin() {
+//   getGoogleUser();
+// }
 function doLogin() {
-  getGoogleUser();
+  USER = {
+    name: 'SSS Vendor',
+    email: 'sss.vegetables@gmail.com',
+    initials: 'SS'
+  };
+
+  localStorage.setItem(K+'user', JSON.stringify(USER));
+  startApp();
 }
 
 function initApp() {
