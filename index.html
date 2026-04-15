@@ -735,17 +735,28 @@ async function sheetAPI(payload) {
   const body = { ...payload, secret: CFG.secret };
   try {
     setSyncStatus('sync','Syncing to Google Sheets...');
-    const r = await fetch(CFG.url, {
-      method:'POST',
-      headers:{'Content-Type':'text/plain'},
-      body: JSON.stringify(body)
-    });
-    const d = await r.json();
-    if (d.error) { setSyncStatus('err', 'Sync error: ' + d.error); return null; }
+    // Use URL param method to avoid CORS preflight issues with Apps Script
+    const encoded = encodeURIComponent(JSON.stringify(body));
+    const url = CFG.url + '?data=' + encoded;
+    const r = await fetch(url, { method:'GET', redirect:'follow' });
+    const text = await r.text();
+    // Apps Script sometimes returns HTML on error — detect it
+    if (text.trim().startsWith('<')) {
+      setSyncStatus('err', 'Script error — check deployment settings');
+      console.error('Apps Script returned HTML:', text.slice(0,200));
+      return null;
+    }
+    const d = JSON.parse(text);
+    if (d.error) {
+      setSyncStatus('err', 'Error: ' + d.error);
+      console.error('Sheet API error:', d);
+      return null;
+    }
     setSyncStatus('ok', 'Synced — ' + new Date().toLocaleTimeString());
     return d;
   } catch(ex) {
-    setSyncStatus('err','Network error — saved locally');
+    setSyncStatus('err','Network error — data saved locally');
+    console.error('sheetAPI exception:', ex);
     return null;
   }
 }
