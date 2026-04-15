@@ -736,9 +736,13 @@ async function sheetAPI(payload) {
   try {
     setSyncStatus('sync','Syncing to Google Sheets...');
     // Use URL param method to avoid CORS preflight issues with Apps Script
-    const encoded = encodeURIComponent(JSON.stringify(body));
-    const url = CFG.url + '?data=' + encoded;
-    const r = await fetch(url, { method:'GET', redirect:'follow' });
+    const r = await fetch(CFG.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
     const text = await r.text();
     // Apps Script sometimes returns HTML on error — detect it
     if (text.trim().startsWith('<')) {
